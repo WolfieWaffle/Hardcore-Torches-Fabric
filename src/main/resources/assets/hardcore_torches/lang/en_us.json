@@ -1,0 +1,6 @@
+{
+  "block.hardcore_torches.lit_torch": "Lit Torch",
+  "block.hardcore_torches.unlit_torch": "Unlit Torch",
+  "block.hardcore_torches.smoldering_torch": "Smoldering Torch",
+  "block.hardcore_torches.burnt_torch": "Burnt Torch"
+}

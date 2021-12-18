@@ -1,0 +1,20 @@
+{
+	"variants": {
+		"facing=east": {
+			"y": 0,
+			"model": "hardcore_torches:block/unlit_wall_torch"
+		},
+		"facing=north": {
+			"y": 270,
+			"model": "hardcore_torches:block/unlit_wall_torch"
+		},
+		"facing=south": {
+			"y": 90,
+			"model": "hardcore_torches:block/unlit_wall_torch"
+		},
+		"facing=west": {
+			"y": 180,
+			"model": "hardcore_torches:block/unlit_wall_torch"
+		}
+	}
+}

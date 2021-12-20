@@ -4,25 +4,31 @@ import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
+import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ClickType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class TorchItem extends WallStandingBlockItem {
     ETorchState torchState;
+    TorchGroup torchGroup;
     int maxFuel;
 
-    public TorchItem(Block standingBlock, Block wallBlock, Settings settings, ETorchState torchState, int maxFuel) {
+    public TorchItem(Block standingBlock, Block wallBlock, Settings settings, ETorchState torchState, int maxFuel, TorchGroup group) {
         super(standingBlock, wallBlock, settings);
         this.torchState = torchState;
         this.maxFuel = maxFuel;
+        this.torchGroup = group;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class TorchItem extends WallStandingBlockItem {
                 if (HardcoreTorchesConfig.getBlocks(Mod.config.worldLightBlocks).contains(block)) {
                     PlayerEntity player = context.getPlayer();
                     if (player != null && !world.isClient)
-                        player.setStackInHand(context.getHand(), litStack(cStack));
+                        player.setStackInHand(context.getHand(), stateStack(cStack, ETorchState.LIT));
                     if (!world.isClient) world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5f, 1.2f);
                     return ActionResult.SUCCESS;
                 }
@@ -79,12 +85,88 @@ public class TorchItem extends WallStandingBlockItem {
         return super.useOnBlock(context);
     }
 
-    public static ItemStack litStack(ItemStack inputStack) {
+    @Override
+    public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference) {
+        // If you are clicking on it with a non HCTorch item or with empty, use vanilla behavior
+        if (!slot.canTakePartial(player) || !(otherStack.getItem() instanceof TorchItem) || otherStack.isEmpty()) {
+            return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+        }
+
+        // Return left click if either is full
+        if (clickType != ClickType.RIGHT && (stack.getCount() >= stack.getMaxCount() || otherStack.getCount() >= otherStack.getMaxCount())) {
+            return false;
+        }
+
+        // Ensure torches are in same group
+        if (!sameTorchGroup((TorchItem) stack.getItem(), (TorchItem) otherStack.getItem())) {
+            return false;
+        }
+
+        if (((TorchItem) stack.getItem()).torchState == ETorchState.LIT) {
+            // If clicked is lit, return if clicked with burnt
+            if (((TorchItem) otherStack.getItem()).torchState == ETorchState.BURNT) {
+                return false;
+            }
+        } else if (((TorchItem) stack.getItem()).torchState == ETorchState.UNLIT) {
+            // If clicked is unlit, return if clicked is not unlit
+            if (((TorchItem) otherStack.getItem()).torchState != ETorchState.UNLIT) {
+                return false;
+            }
+        }
+
+        if (!otherStack.isEmpty()) {
+            int max = stack.getMaxCount();
+            int usedCount = clickType != ClickType.RIGHT ? otherStack.getCount() : 1;
+            int otherMax = otherStack.getMaxCount();
+
+            int remainder = Math.max(0, usedCount - (max - stack.getCount()));
+            int addedNew = usedCount - remainder;
+
+            // Average both stacks
+            int stack1Fuel = getFuel(stack) * stack.getCount();
+            int stack2Fuel = getFuel(otherStack) * addedNew;
+            int totalFuel = stack1Fuel + stack2Fuel;
+
+            // NBT
+            NbtCompound nbt = new NbtCompound();
+            nbt.putInt("Fuel", totalFuel / (stack.getCount() + addedNew));
+
+            if (addedNew > 0) {
+                stack.increment(addedNew);
+                stack.setNbt(nbt);
+                otherStack.setCount(otherStack.getCount() - addedNew);
+                return true;
+            }
+        }
+        return super.onClicked(stack, otherStack, slot, clickType, player, cursorStackReference);
+    }
+
+    public boolean sameTorchGroup(TorchItem item1, TorchItem item2) {
+        if (item1.torchGroup == item2.torchGroup) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Item stateItem(Item inputItem, ETorchState newState) {
+        Item outputItem = Items.AIR;
+
+        if (inputItem instanceof BlockItem && inputItem instanceof TorchItem) {
+            AbstractHardcoreTorchBlock newBlock = (AbstractHardcoreTorchBlock) ((BlockItem)inputItem).getBlock();
+            TorchItem newItem = (TorchItem) newBlock.group.getStandingTorch(newState).asItem();
+
+            outputItem = newItem;
+        }
+
+        return outputItem;
+    }
+
+    public static ItemStack stateStack(ItemStack inputStack, ETorchState newState) {
         ItemStack outputStack = ItemStack.EMPTY;
 
         if (inputStack.getItem() instanceof BlockItem && inputStack.getItem() instanceof TorchItem) {
             AbstractHardcoreTorchBlock newBlock = (AbstractHardcoreTorchBlock) ((BlockItem)inputStack.getItem()).getBlock();
-            TorchItem newItem = (TorchItem) newBlock.group.getStandingTorch(ETorchState.LIT).asItem();
+            TorchItem newItem = (TorchItem) newBlock.group.getStandingTorch(newState).asItem();
 
             outputStack = changedCopy(inputStack, newItem);
         }
@@ -100,7 +182,11 @@ public class TorchItem extends WallStandingBlockItem {
             return nbt.getInt("Fuel");
         }
 
-        return 0;
+        return Mod.config.defaultTorchFuel;
+    }
+
+    public TorchGroup getTorchGroup() {
+        return torchGroup;
     }
 
     public static ItemStack changedCopy(ItemStack stack, Item replacementItem) {

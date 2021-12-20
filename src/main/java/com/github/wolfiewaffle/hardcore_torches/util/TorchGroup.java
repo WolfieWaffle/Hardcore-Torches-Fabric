@@ -10,9 +10,10 @@ public class TorchGroup {
 
     private HashMap<ETorchState, HardcoreFloorTorchBlock> standingTorches = new HashMap<ETorchState, HardcoreFloorTorchBlock>();
     private HashMap<ETorchState, HardcoreWallTorchBlock> wallTorches = new HashMap<ETorchState, HardcoreWallTorchBlock>();
+    public final String name;
 
-    public TorchGroup() {
-
+    public TorchGroup(String name) {
+        this.name = name;
     }
 
     public void add(Block block) {

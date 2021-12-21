@@ -40,8 +40,8 @@ public class HardcoreTorchesConfig implements ConfigData {
     @Comment("Are torches crafted unlit. default false")
     public boolean unlightInChest = false;
 
-//    @Comment("How many torches are crafted. default 4")
-//    public int craftAmount = 4;
+    @Comment("How many torches are crafted. default 4")
+    public int craftAmount = 4;
 
     @Comment("Items which can be used to light a torch for free")
     public String[] freeLightItems = new String[] {

@@ -116,7 +116,7 @@ public class Mod implements ModInitializer {
 						"|"
 				), //The crafting pattern.
 				(config.craftUnlit) ? new Identifier("hardcore_torches:unlit_torch") : new Identifier("hardcore_torches:lit_torch"), //The crafting output
-				1
+				config.craftAmount
 			);
 
 	}

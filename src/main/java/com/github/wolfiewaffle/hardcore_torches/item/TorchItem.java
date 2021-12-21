@@ -185,6 +185,10 @@ public class TorchItem extends WallStandingBlockItem {
         return Mod.config.defaultTorchFuel;
     }
 
+    public ETorchState getTorchState() {
+        return torchState;
+    }
+
     public TorchGroup getTorchGroup() {
         return torchGroup;
     }

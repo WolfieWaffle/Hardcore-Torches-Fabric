@@ -5,21 +5,25 @@ import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
+import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ClickType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class TorchItem extends WallStandingBlockItem {
+public class TorchItem extends WallStandingBlockItem implements FabricItem {
     ETorchState torchState;
     TorchGroup torchGroup;
     int maxFuel;
@@ -56,6 +60,28 @@ public class TorchItem extends WallStandingBlockItem {
     @Override
     public int getItemBarColor(ItemStack stack) {
         return MathHelper.hsvToRgb(3.0f, 1.0f, 1.0f);
+    }
+
+    @Override
+    public boolean allowNbtUpdateAnimation(PlayerEntity player, Hand hand, ItemStack oldStack, ItemStack newStack) {
+        NbtCompound oldNbt = null;
+        NbtCompound newNbt = null;
+
+        if (oldStack.getNbt() != null) {
+            oldNbt = oldStack.getNbt().copy();
+            oldNbt.remove("Fuel");
+        }
+
+        if (newStack.getNbt() != null) {
+            newNbt = newStack.getNbt().copy();
+            newNbt.remove("Fuel");
+        }
+
+        if (oldNbt == null && newNbt != null) return true;
+        if (oldNbt != null && newNbt == null) return true;
+        if (oldNbt == null && newNbt == null) return false;
+
+        return oldNbt.equals(null);
     }
 
     @Override
@@ -169,6 +195,7 @@ public class TorchItem extends WallStandingBlockItem {
             TorchItem newItem = (TorchItem) newBlock.group.getStandingTorch(newState).asItem();
 
             outputStack = changedCopy(inputStack, newItem);
+            if (newState == ETorchState.BURNT) outputStack.setNbt(null);
         }
 
         return outputStack;
@@ -198,10 +225,62 @@ public class TorchItem extends WallStandingBlockItem {
             return ItemStack.EMPTY;
         }
         ItemStack itemStack = new ItemStack(replacementItem, stack.getCount());
-        itemStack.setBobbingAnimationTime(stack.getBobbingAnimationTime());
         if (stack.getNbt() != null) {
             itemStack.setNbt(stack.getNbt().copy());
         }
         return itemStack;
+    }
+
+    protected ItemStack addFuel(ItemStack stack, World world, int amount) {
+        if (stack.getItem() instanceof  TorchItem && !world.isClient) {
+            NbtCompound nbt = stack.getNbt();
+            int fuel = Mod.config.defaultTorchFuel;
+
+            if (nbt != null) {
+                fuel = nbt.getInt("Fuel");
+            } else {
+                nbt = new NbtCompound();
+            }
+
+            fuel += amount;
+
+            // If burn out
+            if (fuel <= 0) {
+                if (Mod.config.burntStick) {
+                    stack = new ItemStack(Items.STICK, stack.getCount());
+                } else {
+                    stack = stateStack(stack, ETorchState.BURNT);
+                }
+            } else {
+                if (fuel > Mod.config.defaultTorchFuel) {
+                    fuel = Mod.config.defaultTorchFuel;
+                }
+
+                nbt.putInt("Fuel", fuel);
+                stack.setNbt(nbt);
+            }
+        }
+
+        return stack;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+
+        // Make sure it's a torch and get its type
+        if (stack.getItem() instanceof TorchItem) {
+            ETorchState torchState = ((TorchItem) stack.getItem()).torchState;
+
+            if (torchState == ETorchState.LIT || torchState == ETorchState.SMOLDERING) {
+
+                // Lit and Smoldering
+                if (Mod.config.tickInInventory) {
+                    if (!world.isClient && entity instanceof PlayerEntity) {
+                        ((PlayerEntity) entity).getInventory().setStack(slot, addFuel(stack, world, -1));
+                    }
+                }
+            }
+        }
     }
 }

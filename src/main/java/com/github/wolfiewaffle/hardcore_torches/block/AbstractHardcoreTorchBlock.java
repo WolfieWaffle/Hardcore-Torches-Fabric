@@ -1,7 +1,7 @@
 package com.github.wolfiewaffle.hardcore_torches.block;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
-import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
@@ -18,7 +18,6 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -113,15 +112,15 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         }
 
         int newFuel = 0;
-        if (world.getBlockEntity(pos) != null) newFuel = ((TorchBlockEntity) world.getBlockEntity(pos)).getFuel();
+        if (world.getBlockEntity(pos) != null) newFuel = ((FuelBlockEntity) world.getBlockEntity(pos)).getFuel();
         world.setBlockState(pos, newState);
-        if (world.getBlockEntity(pos) != null) ((TorchBlockEntity) world.getBlockEntity(pos)).setFuel(newFuel);
+        if (world.getBlockEntity(pos) != null) ((FuelBlockEntity) world.getBlockEntity(pos)).setFuel(newFuel);
     }
 
     // region BlockEntity code
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new TorchBlockEntity(pos, state);
+        return new FuelBlockEntity(pos, state);
     }
 
     // Is invisible without this
@@ -134,7 +133,7 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
     // Needed for ticking, idk what it means
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, Mod.TORCH_BLOCK_ENTITY, (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, be));
+        return checkType(type, Mod.TORCH_BLOCK_ENTITY, (world1, pos, state1, be) -> FuelBlockEntity.tick(world1, pos, state1, be));
     }
     //endregion
 
@@ -198,13 +197,13 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
 
         BlockEntity be = world.getBlockEntity(pos);
 
-        if (be != null && be instanceof TorchBlockEntity && itemStack.getItem() instanceof TorchItem) {
+        if (be != null && be instanceof FuelBlockEntity && itemStack.getItem() instanceof TorchItem) {
             int fuel = TorchItem.getFuel(itemStack);
 
             if (fuel == 0) {
-                ((TorchBlockEntity) be).setFuel(Mod.config.defaultTorchFuel);
+                ((FuelBlockEntity) be).setFuel(Mod.config.defaultTorchFuel);
             } else {
-                ((TorchBlockEntity) be).setFuel(fuel);
+                ((FuelBlockEntity) be).setFuel(fuel);
             }
         }
     }

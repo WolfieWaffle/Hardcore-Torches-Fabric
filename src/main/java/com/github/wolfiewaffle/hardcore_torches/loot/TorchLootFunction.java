@@ -2,7 +2,7 @@ package com.github.wolfiewaffle.hardcore_torches.loot;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
-import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -70,8 +70,8 @@ public class TorchLootFunction extends ConditionalLootFunction {
         }
 
         // Set fuel
-        if (blockEntity != null && blockEntity instanceof TorchBlockEntity) {
-            remainingFuel = ((TorchBlockEntity) blockEntity).getFuel();
+        if (blockEntity != null && blockEntity instanceof FuelBlockEntity) {
+            remainingFuel = ((FuelBlockEntity) blockEntity).getFuel();
             NbtCompound nbt = new NbtCompound();
             nbt.putInt("Fuel", (remainingFuel));
             itemStack.setNbt(nbt);

@@ -11,13 +11,13 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class TorchBlockEntity extends BlockEntity {
+public class FuelBlockEntity extends BlockEntity {
 
     // Store the current value of the number
     private int fuel;
     private static Random random = new Random();
 
-    public TorchBlockEntity(BlockPos pos, BlockState state) {
+    public FuelBlockEntity(BlockPos pos, BlockState state) {
         super(Mod.TORCH_BLOCK_ENTITY, pos, state);
         fuel = Mod.config.defaultTorchFuel;
     }
@@ -39,7 +39,7 @@ public class TorchBlockEntity extends BlockEntity {
         fuel = tag.getInt("number");
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+    public static void tick(World world, BlockPos pos, BlockState state, FuelBlockEntity be) {
         if (!world.isClient) {
             if (((AbstractHardcoreTorchBlock) state.getBlock()).getBurnState() == ETorchState.LIT) {
                 tickLit(world, pos, state, be);
@@ -49,7 +49,7 @@ public class TorchBlockEntity extends BlockEntity {
         }
     }
 
-    private static void tickLit(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+    private static void tickLit(World world, BlockPos pos, BlockState state, FuelBlockEntity be) {
 
         // Extinguish
         if (Mod.config.torchesRain && world.hasRain(pos)) {
@@ -74,7 +74,7 @@ public class TorchBlockEntity extends BlockEntity {
         be.markDirty();
     }
 
-        private static void tickSmoldering(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+        private static void tickSmoldering(World world, BlockPos pos, BlockState state, FuelBlockEntity be) {
 
         // Burn out
         if (random.nextInt(3) == 0) {

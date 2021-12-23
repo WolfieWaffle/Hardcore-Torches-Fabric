@@ -37,8 +37,11 @@ public class HardcoreTorchesConfig implements ConfigData {
     @Comment("Are torches crafted unlit. default false")
     public boolean craftUnlit = false;
 
-    @Comment("Are torches crafted unlit. default false")
+    @Comment("Do torches become unlit when placed in storage. default false")
     public boolean unlightInChest = false;
+
+    @Comment("Do torches lose fuel while the player has then in their inventory. default false")
+    public boolean tickInInventory = false;
 
     @Comment("How many torches are crafted. default 4")
     public int craftAmount = 4;

@@ -2,7 +2,7 @@ package com.github.wolfiewaffle.hardcore_torches;
 
 import com.github.wolfiewaffle.hardcore_torches.block.HardcoreFloorTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.HardcoreWallTorchBlock;
-import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
@@ -23,7 +23,6 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -50,7 +49,7 @@ public class Mod implements ModInitializer {
 
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 
-	public static BlockEntityType<TorchBlockEntity> TORCH_BLOCK_ENTITY;
+	public static BlockEntityType<FuelBlockEntity> TORCH_BLOCK_ENTITY;
 
 	public static HardcoreTorchesConfig config;
 
@@ -87,7 +86,7 @@ public class Mod implements ModInitializer {
 
 		Registry.register(Registry.LOOT_FUNCTION_TYPE, "hardcore_torches:set_damage", HARDCORE_TORCH_LOOT_FUNCTION);
 
-		TORCH_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "hardcore_torches:torch_block_entity", FabricBlockEntityTypeBuilder.create(TorchBlockEntity::new, teTorches).build(null));
+		TORCH_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "hardcore_torches:torch_block_entity", FabricBlockEntityTypeBuilder.create(FuelBlockEntity::new, teTorches).build(null));
 
 		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "lit_torch"), LIT_TORCH);
 		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "unlit_torch"), UNLIT_TORCH);

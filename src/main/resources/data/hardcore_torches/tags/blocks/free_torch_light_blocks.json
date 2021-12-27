@@ -1,0 +1,17 @@
+{
+    "replace": false,
+    "values": [
+	    "minecraft:torch",
+        "minecraft:soul_torch",
+        "minecraft:fire",
+        "minecraft:soul_fire",
+        "minecraft:lantern",
+        "minecraft:soul_lantern",
+        "minecraft:jack_o_lantern",
+        "minecraft:campfire",
+        "minecraft:soul_campfire",
+        "minecraft:magma_block",
+        "hardcore_torches:lit_torch",
+        "hardcore_torches:smoldering_torch"
+    ]
+}

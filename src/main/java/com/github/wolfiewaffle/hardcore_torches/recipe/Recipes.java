@@ -20,8 +20,8 @@ public class Recipes {
         //We create a new Json Element, and add our crafting pattern to it.
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(pattern.get(0));
-        jsonArray.add(pattern.get(1));
-        //jsonArray.add(pattern.get(2)); // commented because my mod doesn't use all 3 rows
+        if (pattern.size() > 1) jsonArray.add(pattern.get(1));
+        if (pattern.size() > 2) jsonArray.add(pattern.get(2));
         //Then we add the pattern to our json object.
         json.add("pattern", jsonArray);
         //This creates:

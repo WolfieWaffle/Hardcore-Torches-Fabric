@@ -17,5 +17,8 @@ public class ClientMod implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(Mod.UNLIT_WALL_TORCH, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(Mod.SMOLDERING_WALL_TORCH, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(Mod.BURNT_WALL_TORCH, RenderLayer.getCutout());
+
+		BlockRenderLayerMap.INSTANCE.putBlock(Mod.LIT_LANTERN, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(Mod.UNLIT_LANTERN, RenderLayer.getCutout());
 	}
 }

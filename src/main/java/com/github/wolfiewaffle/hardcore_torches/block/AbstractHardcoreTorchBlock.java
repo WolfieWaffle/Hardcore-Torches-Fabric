@@ -2,6 +2,8 @@ package com.github.wolfiewaffle.hardcore_torches.block;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.IFuelBlock;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
@@ -18,6 +20,8 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.Tag;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -27,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
-public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity implements BlockEntityProvider {
+public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity implements BlockEntityProvider, IFuelBlock {
 
     public ParticleEffect particle;
     public ETorchState burnState;
@@ -41,17 +45,6 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         super(settings);
         this.particle = particle;
         this.burnState = type;
-    }
-
-    @Override
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (burnState == ETorchState.LIT || burnState == ETorchState.SMOLDERING) {
-            TorchTools.displayParticle(ParticleTypes.SMOKE, state, world, pos);
-        }
-
-        if (burnState == ETorchState.LIT) {
-            TorchTools.displayParticle(this.particle, state, world, pos);
-        }
     }
 
     public void smother(World world, BlockPos pos, BlockState state) {
@@ -120,7 +113,7 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
     // region BlockEntity code
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new FuelBlockEntity(pos, state);
+        return new TorchBlockEntity(pos, state);
     }
 
     // Is invisible without this
@@ -133,59 +126,52 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
     // Needed for ticking, idk what it means
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, Mod.TORCH_BLOCK_ENTITY, (world1, pos, state1, be) -> FuelBlockEntity.tick(world1, pos, state1, be));
+        return checkType(type, Mod.TORCH_BLOCK_ENTITY, (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, be));
     }
     //endregion
+
+    // region Overridden methods
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (burnState == ETorchState.LIT || burnState == ETorchState.SMOLDERING) {
+            TorchTools.displayParticle(ParticleTypes.SMOKE, state, world, pos);
+        }
+
+        if (burnState == ETorchState.LIT) {
+            TorchTools.displayParticle(this.particle, state, world, pos);
+        }
+    }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack stack = player.getStackInHand(hand);
         boolean success = false;
 
-        // Fuel message
-//        BlockEntity be = world.getBlockEntity(pos);
-//        if (be.getType() == Mod.TORCH_BLOCK_ENTITY && !world.isClient) {
-//            player.sendMessage(new LiteralText("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
-//        }
-
         if (burnState == ETorchState.LIT) {
-
-            // Infinite extinguish items
-            if (HardcoreTorchesConfig.getItems(Mod.config.freeExtinguishItems).contains(stack.getItem())) {
+            if (attemptUse(stack, player, hand, Mod.FREE_TORCH_EXTINGUISH_ITEMS, Mod.DAMAGE_TORCH_EXTINGUISH_ITEMS, Mod.CONSUME_TORCH_EXTINGUISH_ITEMS)) {
                 extinguish(world, pos, state);
-                success = true;
+                player.swingHand(hand);
+                return ActionResult.SUCCESS;
+            }
+
+            if (attemptUse(stack, player, hand, Mod.FREE_TORCH_SMOTHER_ITEMS, Mod.DAMAGE_TORCH_SMOTHER_ITEMS, Mod.CONSUME_TORCH_SMOTHER_ITEMS)) {
+                smother(world, pos, state);
+                player.swingHand(hand);
+                return ActionResult.SUCCESS;
             }
         }
 
         if (burnState == ETorchState.SMOLDERING || burnState == ETorchState.UNLIT) {
-
-            // Infinite light items
-            if (HardcoreTorchesConfig.getItems(Mod.config.freeLightItems).contains(stack.getItem())) {
+            if (attemptUse(stack, player, hand, Mod.FREE_TORCH_LIGHT_ITEMS, Mod.DAMAGE_TORCH_LIGHT_ITEMS, Mod.CONSUME_TORCH_LIGHT_ITEMS)) {
                 light(world, pos, state);
-                success = true;
-            }
-
-            // Durability light items
-            if (success == false && HardcoreTorchesConfig.getItems(Mod.config.damageLightItems).contains(stack.getItem())) {
-                if (stack.isDamageable()) {
-                    stack.damage(1, player, p -> p.sendToolBreakStatus(hand));
-                }
-                light(world, pos, state);
-                success = true;
-            }
-
-            // Consume light items
-            if (success == false && HardcoreTorchesConfig.getItems(Mod.config.consumeLightItems).contains(stack.getItem())) {
-                if (!player.isCreative()) {
-                    stack.decrement(1);
-                }
-                light(world, pos, state);
-                success = true;
+                player.swingHand(hand);
+                return ActionResult.SUCCESS;
             }
         }
 
-        if (success) {
-            player.swingHand(hand);
-            return ActionResult.SUCCESS;
+        // Fuel message
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be.getType() == Mod.TORCH_BLOCK_ENTITY && !world.isClient && Mod.config.fuelMessage && stack.isEmpty()) {
+            player.sendMessage(new LiteralText("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
         }
 
         return ActionResult.PASS;
@@ -207,4 +193,12 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
             }
         }
     }
+    // endregion
+
+    // region IFuelBlock
+    @Override
+    public void outOfFuel(World world, BlockPos pos, BlockState state) {
+        burnOut(world, pos, state);
+    }
+    // endregion
 }

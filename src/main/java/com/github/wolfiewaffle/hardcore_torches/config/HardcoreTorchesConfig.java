@@ -34,6 +34,15 @@ public class HardcoreTorchesConfig implements ConfigData {
     @Comment("The amount of ticks the torch lasts. Default is 48000. 20 ticks per second, 48000 = 20 minutes")
     public int defaultTorchFuel = 48000;
 
+    @Comment("The amount of ticks the lantern can last. Default is 144000. 20 ticks per second, 144000 = 60 minutes")
+    public int defaultLanternFuel = 144000;
+
+    @Comment("The amount a fuel item adds to the lantern by default. default 72000")
+    public int defLanternFuelItem = 72000;
+
+    @Comment("A lantern must have at least this much fuel (min 1) to be ignited from unlit. Once lit it will continue to burn to 0. default 1")
+    public int minLanternIgnitionFuel = 1;
+
     @Comment("Are torches crafted unlit. default false")
     public boolean craftUnlit = false;
 
@@ -46,75 +55,6 @@ public class HardcoreTorchesConfig implements ConfigData {
     @Comment("How many torches are crafted. default 4")
     public int craftAmount = 4;
 
-    @Comment("Items which can be used to light a torch for free")
-    public String[] freeLightItems = new String[] {
-            "minecraft:torch",
-            "minecraft:lava_bucket",
-            "hardcore_torches:lit_torch"
-    };
-
-    @Comment("Items which can be used to light a torch but take a durability point")
-    public String[] damageLightItems = new String[] {
-            "minecraft:flint_and_steel"
-    };
-
-    @Comment("Items which consume one to light a torch")
-    public String[] consumeLightItems = new String[] {
-            "minecraft:fire_charge"
-    };
-
-    @Comment("Items that can extinguish a torch for free. the fuel is not expended")
-    public String[] freeExtinguishItems = new String[] {
-            "minecraft:water_bucket"
-    };
-
-    @Comment("Blocks that can be right clicked with a torch to light the torch")
-    public String[] worldLightBlocks = new String[] {
-            "minecraft:torch",
-            "minecraft:soul_torch",
-            "minecraft:fire",
-            "minecraft:soul_fire",
-            "minecraft:lantern",
-            "minecraft:soul_lantern",
-            "minecraft:jack_o_lantern",
-            "minecraft:campfire",
-            "minecraft:soul_campfire",
-            "minecraft:magma_block",
-            "hardcore_torches:lit_torch",
-            "hardcore_torches:smoldering_torch"
-    };
-
-    public static ArrayList<Item> getItems (String[] list) {
-        ArrayList<Item> items = new ArrayList<>();
-
-        for (int i = 0; i < list.length; i++) {
-            Item item = Registry.ITEM.get(new Identifier(list[i]));
-
-            // If it was not recognized, print an error
-            if (item == Items.AIR && !list[i].equals("minecraft:air") && !list[i].equals("air")) {
-                Mod.LOGGER.error("an invalid item was detected in config file: " + list[i]);
-            }
-
-            items.add(item);
-        }
-
-        return items;
-    }
-
-    public static ArrayList<Block> getBlocks (String[] list) {
-        ArrayList<Block> blocks = new ArrayList<>();
-
-        for (int i = 0; i < list.length; i++) {
-            Block block = Registry.BLOCK.get(new Identifier(list[i]));
-
-            // If it was not recognized, print an error
-            if (block == Blocks.AIR && !list[i].equals("minecraft:air") && !list[i].equals("air")) {
-                Mod.LOGGER.error("an invalid item was detected in config file: " + list[i]);
-            }
-
-            blocks.add(block);
-        }
-
-        return blocks;
-    }
+    @Comment("Right click torch or lantern to see fuel value. default false")
+    public boolean fuelMessage = false;
 }

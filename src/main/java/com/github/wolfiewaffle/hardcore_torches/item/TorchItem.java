@@ -13,7 +13,6 @@ import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -53,7 +52,7 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
         if (maxFuel != 0) {
             return Math.round(13.0f - (maxFuel - fuel) * 13.0f / maxFuel);
         }
-        //return Math.round(13.0f - (float)stack.getDamage() * 13.0f / (float)this.maxDamage);
+
         return 0;
     }
 
@@ -98,7 +97,7 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
             if (torchState == ETorchState.UNLIT || torchState == ETorchState.SMOLDERING) {
 
                 // Unlit and Smoldering
-                if (HardcoreTorchesConfig.getBlocks(Mod.config.worldLightBlocks).contains(block)) {
+                if (Mod.FREE_TORCH_LIGHT_BLOCKS.contains(block)) {
                     PlayerEntity player = context.getPlayer();
                     if (player != null && !world.isClient)
                         player.setStackInHand(context.getHand(), stateStack(cStack, ETorchState.LIT));
@@ -231,7 +230,8 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
         return itemStack;
     }
 
-    protected ItemStack addFuel(ItemStack stack, World world, int amount) {
+    public static ItemStack addFuel(ItemStack stack, World world, int amount) {
+
         if (stack.getItem() instanceof  TorchItem && !world.isClient) {
             NbtCompound nbt = stack.getNbt();
             int fuel = Mod.config.defaultTorchFuel;
@@ -262,25 +262,5 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
         }
 
         return stack;
-    }
-
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        super.inventoryTick(stack, world, entity, slot, selected);
-
-        // Make sure it's a torch and get its type
-        if (stack.getItem() instanceof TorchItem) {
-            ETorchState torchState = ((TorchItem) stack.getItem()).torchState;
-
-            if (torchState == ETorchState.LIT || torchState == ETorchState.SMOLDERING) {
-
-                // Lit and Smoldering
-                if (Mod.config.tickInInventory) {
-                    if (!world.isClient && entity instanceof PlayerEntity) {
-                        ((PlayerEntity) entity).getInventory().setStack(slot, addFuel(stack, world, -1));
-                    }
-                }
-            }
-        }
     }
 }

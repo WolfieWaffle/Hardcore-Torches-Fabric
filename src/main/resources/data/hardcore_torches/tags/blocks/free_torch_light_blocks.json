@@ -12,6 +12,8 @@
         "minecraft:soul_campfire",
         "minecraft:magma_block",
         "hardcore_torches:lit_torch",
-        "hardcore_torches:smoldering_torch"
+		"hardcore_torches:lit_wall_torch",
+        "hardcore_torches:smoldering_torch",
+		"hardcore_torches:smoldering_wall_torch"
     ]
 }

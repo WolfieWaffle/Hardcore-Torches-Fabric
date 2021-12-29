@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Hardcore Torches",
-  "description": "Makes light sources burn out over time.",
+  "description": "Makes light sources burn out over time and adds lanterns with fuel.",
   "authors": [
     "Wolfie_Waffle"
   ],

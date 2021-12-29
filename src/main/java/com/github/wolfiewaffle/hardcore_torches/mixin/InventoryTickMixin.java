@@ -3,7 +3,9 @@ package com.github.wolfiewaffle.hardcore_torches.mixin;
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
+import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -37,11 +39,13 @@ public abstract class InventoryTickMixin {
     }
 
     private void tickTorch(ItemStack stack, PlayerInventory inventory, int index, DefaultedList<ItemStack> list) {
-        if (stack.getItem() instanceof LanternItem) {
+        Item item = stack.getItem();
+
+        if (item instanceof LanternItem && ((LanternItem) item).isLit) {
             if (Mod.config.tickInInventory) list.set(index, LanternItem.addFuel(stack, getWorld(),-1));
         }
 
-        if (stack.getItem() instanceof TorchItem) {
+        if (item instanceof TorchItem && ((TorchItem) item).getTorchState() == ETorchState.LIT) {
             if (Mod.config.tickInInventory) list.set(index, TorchItem.addFuel(stack, getWorld(),-1));
         }
     }

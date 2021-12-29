@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class LanternItem extends BlockItem implements FabricItem {
     int maxFuel;
-    boolean isLit;
+    public boolean isLit;
 
     public LanternItem(Block block, Settings settings, int maxFuel, boolean isLit) {
         super(block, settings);
@@ -88,7 +88,7 @@ public class LanternItem extends BlockItem implements FabricItem {
 
     public static ItemStack addFuel(ItemStack stack, World world, int amount) {
 
-        if (stack.getItem() instanceof  LanternItem && !world.isClient) {
+        if (stack.getItem() instanceof LanternItem && !world.isClient) {
             LanternItem item = (LanternItem) stack.getItem();
 
             NbtCompound nbt = stack.getNbt();

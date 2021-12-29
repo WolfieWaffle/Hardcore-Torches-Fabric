@@ -43,6 +43,7 @@ public class Mod implements ModInitializer {
 	public static final Logger LOGGER = LogManager.getLogger("hardcore_torches");
 
 	// Tags
+	public static final Tag<Item> ALL_TORCH_ITEMS = TagFactory.ITEM.create(new Identifier("hardcore_torches", "torches"));
 	public static final Tag<Block> FREE_TORCH_LIGHT_BLOCKS = TagFactory.BLOCK.create(new Identifier("hardcore_torches", "free_torch_light_blocks"));
 	public static final Tag<Item> FREE_TORCH_LIGHT_ITEMS = TagFactory.ITEM.create(new Identifier("hardcore_torches", "free_torch_light_items"));
 	public static final Tag<Item> DAMAGE_TORCH_LIGHT_ITEMS = TagFactory.ITEM.create(new Identifier("hardcore_torches", "damage_torch_light_items"));
@@ -181,8 +182,8 @@ public class Mod implements ModInitializer {
 						'#',
 						'|'
 				), //The keys we are using for the input items/tags.
-				Lists.newArrayList(new Identifier("iron_nugget"), new Identifier("hardcore_torches", "unlit_torch")), //The items/tags we are using as input.
-				Lists.newArrayList("item", "item"), //Whether the input we provided is a tag or an item.
+				Lists.newArrayList(new Identifier("iron_nugget"), new Identifier("hardcore_torches", "torches")), //The items/tags we are using as input.
+				Lists.newArrayList("item", "tag"), //Whether the input we provided is a tag or an item.
 				Lists.newArrayList(
 						"###",
 						"#|#",

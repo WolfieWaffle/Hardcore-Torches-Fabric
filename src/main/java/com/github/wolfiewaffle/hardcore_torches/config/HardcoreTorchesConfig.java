@@ -1,18 +1,8 @@
 package com.github.wolfiewaffle.hardcore_torches.config;
 
-import com.github.wolfiewaffle.hardcore_torches.Mod;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Config(name = "hardcore_torches")
 public class HardcoreTorchesConfig implements ConfigData {
@@ -57,4 +47,13 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("Right click torch or lantern to see fuel value. default false")
     public boolean fuelMessage = false;
+
+    @Comment("Max fuel an oil can holds. default 576000")
+    public int maxCanFuel = 576000;
+
+    @Comment("Do lanterns have to be filled using an oil can. default true")
+    public boolean lanternsNeedCan = true;
+
+    @Comment("Can you refuel a torch using an oil can. default false")
+    public boolean torchesUseCan = false;
 }

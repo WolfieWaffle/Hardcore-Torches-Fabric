@@ -4,12 +4,15 @@ import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.IFuelBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
+import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchTools;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -24,6 +27,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -35,6 +39,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public abstract class AbstractLanternBlock extends BlockWithEntity implements BlockEntityProvider, IFuelBlock {
     public static final BooleanProperty HANGING;
@@ -132,7 +138,7 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
         }
 
         // Adding fuel
-        if (stack.isIn(ItemTags.COALS)) {
+        if (stack.isIn(ItemTags.COALS) && !Mod.config.lanternsNeedCan) {
             if (be instanceof FuelBlockEntity) {
                 int oldFuel = ((FuelBlockEntity) be).getFuel();
 
@@ -151,9 +157,26 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
             }
         }
 
+        // Adding fuel with can
+        if (stack.getItem() instanceof OilCanItem && Mod.config.lanternsNeedCan) {
+            if (be instanceof FuelBlockEntity && !world.isClient) {
+                if (OilCanItem.fuelBlock((FuelBlockEntity) be, world, stack)) {
+                    world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1f, 1f);
+                }
+            }
+            player.swingHand(hand);
+            return ActionResult.SUCCESS;
+        }
+
+        boolean showFuel = (stack.isEmpty() || stack.getItem() == Mod.OIL_CAN) && Mod.config.fuelMessage;
+
         // Fuel message
-        if (be.getType() == Mod.LANTERN_BLOCK_ENTITY && !world.isClient && Mod.config.fuelMessage && stack.isEmpty()) {
+        if (be.getType() == Mod.LANTERN_BLOCK_ENTITY && !world.isClient && hand == Hand.MAIN_HAND && Mod.config.fuelMessage && showFuel) {
             player.sendMessage(new LiteralText("Fuel: " + ((FuelBlockEntity) be).getFuel()), true);
+        }
+
+        if (Mod.config.lanternsNeedCan && !stack.isEmpty() && hand == Hand.MAIN_HAND && stack.getItem() != Mod.OIL_CAN && !world.isClient) {
+            player.sendMessage(new LiteralText("Requires an Oil Can to fuel!"), true);
         }
 
         return ActionResult.PASS;

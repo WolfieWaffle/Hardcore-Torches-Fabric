@@ -3,14 +3,20 @@ package com.github.wolfiewaffle.hardcore_torches.item;
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class LanternItem extends BlockItem implements FabricItem {
     int maxFuel;
@@ -132,5 +138,12 @@ public class LanternItem extends BlockItem implements FabricItem {
         }
 
         return outputStack;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        if (Mod.config.lanternsNeedCan) tooltip.add(new LiteralText("Requires an Oil Can").formatted(Formatting.GRAY));
+        tooltip.add(new LiteralText("Light with Flint and Steel").formatted(Formatting.GRAY));
+        super.appendTooltip(stack, world, tooltip, context);
     }
 }

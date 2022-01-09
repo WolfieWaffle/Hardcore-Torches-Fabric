@@ -4,6 +4,7 @@ import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.IFuelBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
@@ -170,6 +171,13 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         BlockEntity be = world.getBlockEntity(pos);
         if (be.getType() == Mod.TORCH_BLOCK_ENTITY && !world.isClient && Mod.config.fuelMessage && stack.isEmpty()) {
             player.sendMessage(new LiteralText("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
+        }
+
+        // Oil Can
+        if (Mod.config.torchesUseCan && burnState != ETorchState.BURNT && !world.isClient) {
+            if (OilCanItem.fuelBlock((FuelBlockEntity) be, world, stack)) {
+                world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1f, 1f);
+            }
         }
 
         return ActionResult.PASS;

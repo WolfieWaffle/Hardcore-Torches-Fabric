@@ -1,0 +1,15 @@
+{
+    "type": "hardcore_torches:oil_can",
+    "ingredients":[
+      {
+        "tag": "minecraft:coals"
+      },
+      {
+        "item": "hardcore_torches:oil_can"
+      }
+    ],
+    "result": {
+      "item": "hardcore_torches:oil_can"
+    },
+    "fuel": 72000
+}

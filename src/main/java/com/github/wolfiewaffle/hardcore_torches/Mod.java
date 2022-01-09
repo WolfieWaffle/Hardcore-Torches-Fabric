@@ -11,7 +11,9 @@ import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
+import com.github.wolfiewaffle.hardcore_torches.recipe.OilCanRecipe;
 import com.github.wolfiewaffle.hardcore_torches.recipe.Recipes;
+import com.github.wolfiewaffle.hardcore_torches.recipe.TorchRecipe;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
 import com.google.common.collect.Lists;
@@ -30,6 +32,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
@@ -84,11 +87,9 @@ public class Mod implements ModInitializer {
 
 	public static HardcoreTorchesConfig config;
 
-	// Recipes
-	public static JsonObject TORCH_RECIPE = null;
-	public static JsonObject VANILLA_TORCH_RECIPE = null;
-	public static JsonObject LANTERN_RECIPE = null;
-
+	// Recipe Types
+	public static final RecipeType<OilCanRecipe> OIL_CAN_RECIPE = RecipeType.register("hardcore_torches:oil_can");
+	public static final RecipeType<TorchRecipe> TORCH_RECIPE = RecipeType.register("hardcore_torches:torch");
 
 	@Override
 	public void onInitialize() {
@@ -151,5 +152,9 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, false));
 
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
+
+		// Recipe Types
+		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
+		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
 	}
 }

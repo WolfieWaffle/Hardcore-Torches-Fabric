@@ -56,4 +56,7 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("Can you refuel a torch using an oil can. default false")
     public boolean torchesUseCan = false;
+
+    @Comment("Multiplies the fuel value of all oil can recipes. 0.5 makes all fuel recipes return half as much fuel. default 1")
+    public int oilRecipeMultiplier = 1;
 }

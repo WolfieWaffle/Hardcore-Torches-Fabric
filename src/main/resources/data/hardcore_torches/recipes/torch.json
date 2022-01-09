@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:crafting_shaped",
+    "type": "hardcore_torches:torch",
     "pattern":
     [
         "#",
@@ -18,13 +18,7 @@
     },
     "result":
     {
-        "item": "hardcore_torches:unlit_torch",
+        "item": "hardcore_torches:lit_torch",
         "count": 1
-    },
-	"conditions": 
-	[
-		{
-			"type": "hardcore_torches:config_craft_unlit"
-		}
-	]
+    }
 }

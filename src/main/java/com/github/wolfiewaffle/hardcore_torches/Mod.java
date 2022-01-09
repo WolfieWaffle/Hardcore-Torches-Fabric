@@ -151,51 +151,5 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, false));
 
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
-
-		TORCH_RECIPE = Recipes.createShapedRecipeJson(
-				Lists.newArrayList(
-						'#',
-						'|'
-				), //The keys we are using for the input items/tags.
-				Lists.newArrayList(new Identifier("minecraft", "coals"), new Identifier("stick")), //The items/tags we are using as input.
-				Lists.newArrayList("tag", "item"), //Whether the input we provided is a tag or an item.
-				Lists.newArrayList(
-						"#",
-						"|"
-				), //The crafting pattern.
-				(config.craftUnlit) ? new Identifier("hardcore_torches:unlit_torch") : new Identifier("hardcore_torches:lit_torch"), //The crafting output
-				config.craftAmount
-			);
-
-		VANILLA_TORCH_RECIPE = Recipes.createShapedRecipeJson(
-				Lists.newArrayList(
-						'#',
-						'|'
-				), //The keys we are using for the input items/tags.
-				Lists.newArrayList(new Identifier("glowstone_dust"), new Identifier("stick")), //The items/tags we are using as input.
-				Lists.newArrayList("item", "item"), //Whether the input we provided is a tag or an item.
-				Lists.newArrayList(
-						"#",
-						"|"
-				), //The crafting pattern.
-				new Identifier("minecraft:torch"), //The crafting output
-				1
-			);
-
-		LANTERN_RECIPE = Recipes.createShapedRecipeJson(
-				Lists.newArrayList(
-						'#',
-						'|'
-				), //The keys we are using for the input items/tags.
-				Lists.newArrayList(new Identifier("iron_nugget"), new Identifier("hardcore_torches", "torches")), //The items/tags we are using as input.
-				Lists.newArrayList("item", "tag"), //Whether the input we provided is a tag or an item.
-				Lists.newArrayList(
-						"###",
-						"#|#",
-						"###"
-				), //The crafting pattern.
-				new Identifier("hardcore_torches:unlit_lantern"), //The crafting output
-				1
-			);
 	}
 }

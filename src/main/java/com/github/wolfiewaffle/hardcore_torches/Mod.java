@@ -7,6 +7,7 @@ import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
+import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
@@ -74,6 +75,8 @@ public class Mod implements ModInitializer {
 	public static final Block LIT_LANTERN = new LanternBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().luminance(state -> 15).sounds(BlockSoundGroup.LANTERN), true);
 	public static final Block UNLIT_LANTERN = new LanternBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().sounds(BlockSoundGroup.LANTERN), false);
 
+	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().group(ItemGroup.TOOLS));
+
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 
 	public static BlockEntityType<TorchBlockEntity> TORCH_BLOCK_ENTITY;
@@ -139,13 +142,13 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "lit_lantern"), LIT_LANTERN);
 		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "unlit_lantern"), UNLIT_LANTERN);
 
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_torch"), new TorchItem(LIT_TORCH, LIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.MISC), ETorchState.LIT, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_torch"), new TorchItem(UNLIT_TORCH, UNLIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.MISC), ETorchState.UNLIT, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "smoldering_torch"), new TorchItem(SMOLDERING_TORCH, SMOLDERING_WALL_TORCH, new FabricItemSettings().group(ItemGroup.MISC), ETorchState.SMOLDERING, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "burnt_torch"), new TorchItem(BURNT_TORCH, BURNT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.MISC), ETorchState.BURNT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_torch"), new TorchItem(LIT_TORCH, LIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.LIT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_torch"), new TorchItem(UNLIT_TORCH, UNLIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.UNLIT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "smoldering_torch"), new TorchItem(SMOLDERING_TORCH, SMOLDERING_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.SMOLDERING, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "burnt_torch"), new TorchItem(BURNT_TORCH, BURNT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.BURNT, config.defaultTorchFuel, basicTorches));
 
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_lantern"), new LanternItem(LIT_LANTERN, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1), config.defaultLanternFuel, true));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.MISC).maxCount(1), config.defaultLanternFuel, false));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_lantern"), new LanternItem(LIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, true));
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, false));
 
 		TORCH_RECIPE = Recipes.createShapedRecipeJson(
 				Lists.newArrayList(

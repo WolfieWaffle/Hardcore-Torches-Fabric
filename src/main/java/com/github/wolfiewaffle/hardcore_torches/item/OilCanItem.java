@@ -95,7 +95,6 @@ public class OilCanItem extends Item implements FabricItem {
     }
 
     public static ItemStack addFuel(ItemStack stack, int amount) {
-        Mod.LOGGER.info("amount: " + amount);
 
         if (stack.getItem() instanceof OilCanItem) {
             NbtCompound nbt = stack.getNbt();
@@ -106,8 +105,6 @@ public class OilCanItem extends Item implements FabricItem {
             } else {
                 nbt = new NbtCompound();
             }
-
-            Mod.LOGGER.info("fuel: " + fuel);
 
             fuel = Math.min(Mod.config.maxCanFuel, Math.max(0, fuel + amount));
 

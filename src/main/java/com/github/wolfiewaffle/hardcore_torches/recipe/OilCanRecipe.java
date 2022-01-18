@@ -11,17 +11,27 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.world.World;
 
 public class OilCanRecipe extends ShapelessRecipe {
     final int fuelAmount;
+    final int configType;
 
-    public OilCanRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input, int fuelAmount) {
+    public OilCanRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input, int fuelAmount, int configType) {
         super(id, group, output, input);
         this.fuelAmount = fuelAmount;
+        this.configType = configType;
     }
 
     public RecipeSerializer<?> getSerializer() {
         return new Serializer();
+    }
+
+    @Override
+    public boolean matches(CraftingInventory craftingInventory, World world) {
+        if (configType == 0 && !Mod.config.enableFatOil) return false;
+        if (configType == 1 && !Mod.config.enableCoalOil) return false;
+        return super.matches(craftingInventory, world);
     }
 
     @Override
@@ -53,16 +63,18 @@ public class OilCanRecipe extends ShapelessRecipe {
         public OilCanRecipe read(Identifier resourceLocation, JsonObject json) {
             ShapelessRecipe recipe = ShapelessRecipe.Serializer.SHAPELESS.read(resourceLocation, json);
             int fuel = json.get("fuel").getAsInt();
+            int configType = json.get("config_type").getAsInt();
 
-            return new OilCanRecipe(recipe.getId(), recipe.getGroup(), recipe.getOutput(), recipe.getIngredients(), fuel);
+            return new OilCanRecipe(recipe.getId(), recipe.getGroup(), recipe.getOutput(), recipe.getIngredients(), fuel, configType);
         }
 
         @Override
         public OilCanRecipe read(Identifier resourceLocation, PacketByteBuf friendlyByteBuf) {
             ShapelessRecipe recipe = ShapelessRecipe.Serializer.SHAPELESS.read(resourceLocation, friendlyByteBuf);
             int fuelValue = friendlyByteBuf.readVarInt();
+            int configType = friendlyByteBuf.readVarInt();
 
-            return new OilCanRecipe(recipe.getId(), recipe.getGroup(), recipe.getOutput(), recipe.getIngredients(), fuelValue);
+            return new OilCanRecipe(recipe.getId(), recipe.getGroup(), recipe.getOutput(), recipe.getIngredients(), fuelValue, configType);
         }
 
         @Override
@@ -71,6 +83,7 @@ public class OilCanRecipe extends ShapelessRecipe {
             ShapelessRecipe.Serializer.SHAPELESS.write(friendlyByteBuf, rec);
 
             friendlyByteBuf.writeVarInt(oilCanRecipe.fuelAmount);
+            friendlyByteBuf.writeVarInt(oilCanRecipe.configType);
         }
     }
 }

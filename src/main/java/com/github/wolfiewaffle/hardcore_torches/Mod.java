@@ -9,27 +9,29 @@ import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
+import com.github.wolfiewaffle.hardcore_torches.loot.FatLootNumberProvider;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.recipe.OilCanRecipe;
-import com.github.wolfiewaffle.hardcore_torches.recipe.Recipes;
 import com.github.wolfiewaffle.hardcore_torches.recipe.TorchRecipe;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
+import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeType;
@@ -45,6 +47,16 @@ public class Mod implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LogManager.getLogger("hardcore_torches");
+
+	// Loot Tables
+	private static final Identifier CHICKEN_LOOT_TABLE_ID = EntityType.CHICKEN.getLootTableId();
+	private static final Identifier COW_LOOT_TABLE_ID = EntityType.COW.getLootTableId();
+	private static final Identifier GOAT_LOOT_TABLE_ID = EntityType.GOAT.getLootTableId();
+	private static final Identifier HOGLIN_LOOT_TABLE_ID = EntityType.HOGLIN.getLootTableId();
+	private static final Identifier HORSE_LOOT_TABLE_ID = EntityType.HORSE.getLootTableId();
+	private static final Identifier MOOSHROOM_LOOT_TABLE_ID = EntityType.MOOSHROOM.getLootTableId();
+	private static final Identifier PIG_LOOT_TABLE_ID = EntityType.PIG.getLootTableId();
+	private static final Identifier SHEEP_LOOT_TABLE_ID = EntityType.SHEEP.getLootTableId();
 
 	// Tags
 	public static final Tag<Item> ALL_TORCH_ITEMS = TagFactory.ITEM.create(new Identifier("hardcore_torches", "torches"));
@@ -79,6 +91,7 @@ public class Mod implements ModInitializer {
 	public static final Block UNLIT_LANTERN = new LanternBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().sounds(BlockSoundGroup.LANTERN), false);
 
 	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+	public static final Item ANIMAL_FAT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 
@@ -152,9 +165,69 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, false));
 
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "animal_fat"), ANIMAL_FAT);
 
 		// Recipe Types
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
+
+		// Loot Tables
+		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {
+			if (CHICKEN_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (COW_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 1, 1, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (GOAT_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (HOGLIN_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {1, 3, 5, 7}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (HORSE_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (MOOSHROOM_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 1, 1, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (PIG_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 1, 2, 2}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+
+			if (SHEEP_LOOT_TABLE_ID.equals(id)) {
+				table.pool(FabricLootPoolBuilder.builder()
+						.rolls(new FatLootNumberProvider(new int[] {0, 1}))
+						.with(ItemEntry.builder(ANIMAL_FAT)));
+				return;
+			}
+		});
 	}
 }

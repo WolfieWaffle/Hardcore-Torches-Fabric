@@ -29,9 +29,7 @@ public class TorchLootFunction extends ConditionalLootFunction {
 
     @Override
     protected ItemStack process(ItemStack stack, LootContext context) {
-        BlockEntity blockEntity = context.get(LootContextParameters.BLOCK_ENTITY);
         BlockState state = context.get(LootContextParameters.BLOCK_STATE);
-        int remainingFuel = Integer.MAX_VALUE;
         ItemStack itemStack = new ItemStack(state.getBlock().asItem());
         ETorchState torchState;
         ETorchState dropTorchState;

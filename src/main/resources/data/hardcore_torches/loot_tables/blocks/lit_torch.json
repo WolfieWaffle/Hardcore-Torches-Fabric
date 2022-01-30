@@ -16,9 +16,11 @@
       ],
 	  "functions": [
 	    {
-          "function": "hardcore_torches:torch",
-          "function": "hardcore_torches:set_damage"
-	    }
+          "function": "hardcore_torches:torch"
+	    },
+		{
+		  "function": "hardcore_torches:set_damage"
+		}
 	  ]
     }
   ]

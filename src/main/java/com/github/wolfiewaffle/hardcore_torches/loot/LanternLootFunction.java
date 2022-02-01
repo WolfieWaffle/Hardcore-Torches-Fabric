@@ -2,11 +2,12 @@ package com.github.wolfiewaffle.hardcore_torches.loot;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
+import com.github.wolfiewaffle.hardcore_torches.block.AbstractLanternBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -30,9 +31,12 @@ public class LanternLootFunction extends ConditionalLootFunction {
 
     @Override
     protected ItemStack process(ItemStack stack, LootContext context) {
-        BlockEntity blockEntity = context.get(LootContextParameters.BLOCK_ENTITY);
+        if (!(stack.getItem() instanceof BlockItem)) return stack; // No regular items
 
-        if (stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof AbstractHardcoreTorchBlock) {
+        BlockEntity blockEntity = context.get(LootContextParameters.BLOCK_ENTITY);
+        Block block = ((BlockItem) stack.getItem()).getBlock();
+
+        if (block instanceof AbstractHardcoreTorchBlock || block instanceof AbstractLanternBlock) {
 
             // Set fuel
             if (blockEntity != null && blockEntity instanceof FuelBlockEntity) {
@@ -42,7 +46,7 @@ public class LanternLootFunction extends ConditionalLootFunction {
                 stack.setNbt(nbt);
             }
 
-            if (((AbstractHardcoreTorchBlock) ((BlockItem) stack.getItem()).getBlock()).burnState == ETorchState.BURNT) {
+            if (block instanceof AbstractHardcoreTorchBlock && ((AbstractHardcoreTorchBlock) ((BlockItem) stack.getItem()).getBlock()).burnState == ETorchState.BURNT) {
                 stack.removeSubNbt("Fuel");
             }
         }

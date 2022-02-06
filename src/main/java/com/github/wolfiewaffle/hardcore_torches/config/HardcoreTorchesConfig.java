@@ -65,4 +65,10 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("If true, you can craft coal with an oil can to fill it. You can also add custom fill recipes with a datapack, open the mod jar to see the JSON format. default false")
     public boolean enableCoalOil = false;
+
+    @Comment("If true, you can right click torches to extinguish them while not holding fuel or a torch to light. default false")
+    public boolean handUnlightTorch = false;
+
+    @Comment("If true, you can right click lanterns to extinguish them while not holding fuel or a torch to light. default false")
+    public boolean handUnlightLantern = false;
 }

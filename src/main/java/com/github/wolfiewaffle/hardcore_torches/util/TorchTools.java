@@ -1,6 +1,10 @@
 package com.github.wolfiewaffle.hardcore_torches.util;
 
+import com.github.wolfiewaffle.hardcore_torches.Mod;
+import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
@@ -9,6 +13,21 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class TorchTools {
+
+    public static boolean canLight(Item item, Block block) {
+
+        if (item instanceof TorchItem) {
+            ETorchState state = ((TorchItem) item).getTorchState();
+
+            if (state == ETorchState.UNLIT || state == ETorchState.SMOLDERING) {
+                if (Mod.FREE_TORCH_LIGHT_BLOCKS.contains(block)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     public static void displayParticle(ParticleEffect particle, BlockState state, World world, BlockPos pos, float spread) {
         double d = (double)pos.getX() + 0.5;

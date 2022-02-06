@@ -15,6 +15,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -179,6 +180,14 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
             player.sendMessage(new LiteralText("Requires an Oil Can to fuel!"), true);
         }
 
+        // Hand extinguish
+        if (Mod.config.handUnlightLantern && isLit) {
+            if (!TorchTools.canLight(stack.getItem(), this)) {
+                extinguish(world, pos, state);
+                return ActionResult.SUCCESS;
+            }
+        }
+
         return ActionResult.PASS;
     }
 
@@ -193,6 +202,13 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
 
             ((FuelBlockEntity) be).setFuel(fuel);
         }
+    }
+
+    public static boolean isLightItem(Item item) {
+        if (Mod.FREE_LANTERN_LIGHT_ITEMS.contains(item)) return true;
+        if (Mod.DAMAGE_LANTERN_LIGHT_ITEMS.contains(item)) return true;
+        if (Mod.CONSUME_LANTERN_LIGHT_ITEMS.contains(item)) return true;
+        return false;
     }
 
     // region IFuelBlock

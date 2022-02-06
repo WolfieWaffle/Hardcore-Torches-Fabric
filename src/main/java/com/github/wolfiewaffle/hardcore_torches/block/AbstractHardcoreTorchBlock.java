@@ -15,6 +15,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -109,6 +110,13 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         if (world.getBlockEntity(pos) != null) ((FuelBlockEntity) world.getBlockEntity(pos)).setFuel(newFuel);
     }
 
+    public static boolean isLightItem(Item item) {
+        if (Mod.FREE_TORCH_LIGHT_ITEMS.contains(item)) return true;
+        if (Mod.DAMAGE_TORCH_LIGHT_ITEMS.contains(item)) return true;
+        if (Mod.CONSUME_TORCH_LIGHT_ITEMS.contains(item)) return true;
+        return false;
+    }
+
     // region BlockEntity code
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -177,6 +185,14 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         if (Mod.config.torchesUseCan && burnState != ETorchState.BURNT && !world.isClient) {
             if (OilCanItem.fuelBlock((FuelBlockEntity) be, world, stack)) {
                 world.playSound(null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1f, 1f);
+            }
+        }
+
+        // Hand extinguish
+        if (Mod.config.handUnlightTorch && (burnState == ETorchState.LIT || burnState == ETorchState.SMOLDERING)) {
+            if (!TorchTools.canLight(stack.getItem(), this)) {
+                extinguish(world, pos, state);
+                return ActionResult.SUCCESS;
             }
         }
 

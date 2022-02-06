@@ -7,6 +7,7 @@ import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
@@ -15,6 +16,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
@@ -85,22 +87,28 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        ItemStack cStack = context.getStack();
+        ItemStack stack = context.getStack();
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
+        BlockState state = world.getBlockState(pos);
 
         // Make sure it's a torch and get its type
-        if (cStack.getItem() instanceof TorchItem) {
-            ETorchState torchState = ((TorchItem) cStack.getItem()).torchState;
-            Block block = world.getBlockState(pos).getBlock();
+        if (stack.getItem() instanceof TorchItem) {
+            ETorchState torchState = ((TorchItem) stack.getItem()).torchState;
+            Block block = state.getBlock();
 
             if (torchState == ETorchState.UNLIT || torchState == ETorchState.SMOLDERING) {
 
                 // Unlit and Smoldering
                 if (Mod.FREE_TORCH_LIGHT_BLOCKS.contains(block)) {
+                    // No lighting on unlit fires etc.
+                    if (state.contains(Properties.LIT))
+                        if (state.get(Properties.LIT).booleanValue() == false)
+                            return super.useOnBlock(context);
+
                     PlayerEntity player = context.getPlayer();
                     if (player != null && !world.isClient)
-                        player.setStackInHand(context.getHand(), stateStack(cStack, ETorchState.LIT));
+                        player.setStackInHand(context.getHand(), stateStack(stack, ETorchState.LIT));
                     if (!world.isClient) world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5f, 1.2f);
                     return ActionResult.SUCCESS;
                 }

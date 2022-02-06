@@ -17,8 +17,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Random;
+
 @Mixin(ServerPlayerEntity.class)
 public abstract class InventoryTickMixin {
+    private static Random random = new Random();
 
     @Shadow public abstract World getWorld();
 
@@ -45,8 +48,14 @@ public abstract class InventoryTickMixin {
             if (Mod.config.tickInInventory) list.set(index, LanternItem.addFuel(stack, getWorld(),-1));
         }
 
-        if (item instanceof TorchItem && ((TorchItem) item).getTorchState() == ETorchState.LIT) {
-            if (Mod.config.tickInInventory) list.set(index, TorchItem.addFuel(stack, getWorld(),-1));
+        if (item instanceof TorchItem) {
+            ETorchState state = ((TorchItem) item).getTorchState();
+
+            if (state == ETorchState.LIT) {
+                if (Mod.config.tickInInventory) list.set(index, TorchItem.addFuel(stack, getWorld(),-1));
+            } else if (state == ETorchState.SMOLDERING) {
+                if (Mod.config.tickInInventory && random.nextInt(3) == 0) list.set(index, TorchItem.addFuel(stack, getWorld(),-1));
+            }
         }
     }
 }

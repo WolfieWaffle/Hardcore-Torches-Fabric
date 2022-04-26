@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public interface IFuelBlock {
 
-    public void outOfFuel(World world, BlockPos pos, BlockState state);
+    void outOfFuel(World world, BlockPos pos, BlockState state);
 
     default boolean itemValid(ItemStack stack, TagKey free, TagKey damage, TagKey consume) {
 

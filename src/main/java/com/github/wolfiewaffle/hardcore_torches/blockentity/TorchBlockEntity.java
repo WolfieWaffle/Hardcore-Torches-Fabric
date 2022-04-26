@@ -43,7 +43,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
             be.fuel--;
 
             if (be.fuel <= 0) {
-                ((AbstractHardcoreTorchBlock) world.getBlockState(pos).getBlock()).outOfFuel(world, pos, state);
+                ((AbstractHardcoreTorchBlock) world.getBlockState(pos).getBlock()).outOfFuel(world, pos, state, false);
             }
         }
 
@@ -58,7 +58,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
                 be.fuel--;
 
                 if (be.fuel <= 0) {
-                    ((AbstractHardcoreTorchBlock) world.getBlockState(pos).getBlock()).burnOut(world, pos, state);
+                    ((AbstractHardcoreTorchBlock) world.getBlockState(pos).getBlock()).burnOut(world, pos, state, false);
                 }
             }
         }

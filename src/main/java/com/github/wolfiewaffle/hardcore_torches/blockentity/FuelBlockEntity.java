@@ -57,7 +57,7 @@ public class FuelBlockEntity extends BlockEntity {
 
             if (world.getBlockState(pos).getBlock() instanceof IFuelBlock) {
                 IFuelBlock block = (IFuelBlock) world.getBlockState(pos).getBlock();
-                block.outOfFuel(world, pos, world.getBlockState(pos));
+                block.outOfFuel(world, pos, world.getBlockState(pos), false);
             }
         }
     }

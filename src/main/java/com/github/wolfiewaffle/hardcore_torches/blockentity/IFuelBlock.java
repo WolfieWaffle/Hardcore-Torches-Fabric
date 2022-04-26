@@ -3,7 +3,6 @@ package com.github.wolfiewaffle.hardcore_torches.blockentity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -11,7 +10,7 @@ import net.minecraft.world.World;
 
 public interface IFuelBlock {
 
-    void outOfFuel(World world, BlockPos pos, BlockState state);
+    void outOfFuel(World world, BlockPos pos, BlockState state, boolean playSound);
 
     default boolean itemValid(ItemStack stack, TagKey free, TagKey damage, TagKey consume) {
 

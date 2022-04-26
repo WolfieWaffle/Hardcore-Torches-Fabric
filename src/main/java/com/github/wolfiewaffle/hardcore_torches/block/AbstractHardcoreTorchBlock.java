@@ -37,10 +37,6 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
     public ETorchState burnState;
     public TorchGroup group;
 
-    public static final float pX = 0.5f;
-    public static final float pY = 0.7f;
-    public static final float pZ = 0.5f;
-
     public AbstractHardcoreTorchBlock(AbstractBlock.Settings settings, ParticleEffect particle, ETorchState type) {
         super(settings);
         this.particle = particle;
@@ -69,9 +65,9 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         }
     }
 
-    public void burnOut(World world, BlockPos pos, BlockState state) {
+    public void burnOut(World world, BlockPos pos, BlockState state, boolean playSound) {
         if (!world.isClient) {
-            world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f);
+            if (playSound) world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f);
             TorchTools.displayParticle(ParticleTypes.LARGE_SMOKE, state, world, pos);
             TorchTools.displayParticle(ParticleTypes.LARGE_SMOKE, state, world, pos);
             TorchTools.displayParticle(ParticleTypes.SMOKE, state, world, pos);
@@ -219,8 +215,8 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
 
     // region IFuelBlock
     @Override
-    public void outOfFuel(World world, BlockPos pos, BlockState state) {
-        burnOut(world, pos, state);
+    public void outOfFuel(World world, BlockPos pos, BlockState state, boolean playSound) {
+        burnOut(world, pos, state, playSound);
     }
     // endregion
 }

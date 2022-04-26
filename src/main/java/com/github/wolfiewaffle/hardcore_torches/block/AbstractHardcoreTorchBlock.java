@@ -110,10 +110,10 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         if (world.getBlockEntity(pos) != null) ((FuelBlockEntity) world.getBlockEntity(pos)).setFuel(newFuel);
     }
 
-    public static boolean isLightItem(Item item) {
-        if (Mod.FREE_TORCH_LIGHT_ITEMS.contains(item)) return true;
-        if (Mod.DAMAGE_TORCH_LIGHT_ITEMS.contains(item)) return true;
-        if (Mod.CONSUME_TORCH_LIGHT_ITEMS.contains(item)) return true;
+    public static boolean isLightItem(ItemStack stack) {
+        if (stack.isIn(Mod.FREE_TORCH_LIGHT_ITEMS)) return true;
+        if (stack.isIn(Mod.DAMAGE_TORCH_LIGHT_ITEMS)) return true;
+        if (stack.isIn(Mod.CONSUME_TORCH_LIGHT_ITEMS)) return true;
         return false;
     }
 
@@ -190,7 +190,7 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
 
         // Hand extinguish
         if (Mod.config.handUnlightTorch && (burnState == ETorchState.LIT || burnState == ETorchState.SMOLDERING)) {
-            if (!TorchTools.canLight(stack.getItem(), this)) {
+            if (!TorchTools.canLight(stack.getItem(), state)) {
                 extinguish(world, pos, state);
                 return ActionResult.SUCCESS;
             }

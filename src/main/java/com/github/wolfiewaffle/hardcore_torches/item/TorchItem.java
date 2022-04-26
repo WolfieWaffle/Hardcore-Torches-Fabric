@@ -2,13 +2,11 @@ package com.github.wolfiewaffle.hardcore_torches.item;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
-import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
@@ -95,12 +93,11 @@ public class TorchItem extends WallStandingBlockItem implements FabricItem {
         // Make sure it's a torch and get its type
         if (stack.getItem() instanceof TorchItem) {
             ETorchState torchState = ((TorchItem) stack.getItem()).torchState;
-            Block block = state.getBlock();
 
             if (torchState == ETorchState.UNLIT || torchState == ETorchState.SMOLDERING) {
 
                 // Unlit and Smoldering
-                if (Mod.FREE_TORCH_LIGHT_BLOCKS.contains(block)) {
+                if (state.isIn(Mod.FREE_TORCH_LIGHT_BLOCKS)) {
                     // No lighting on unlit fires etc.
                     if (state.contains(Properties.LIT))
                         if (state.get(Properties.LIT).booleanValue() == false)

@@ -7,7 +7,6 @@ import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -23,7 +22,8 @@ import java.util.Random;
 public abstract class InventoryTickMixin {
     private static Random random = new Random();
 
-    @Shadow public abstract World getWorld();
+    @Shadow
+    public abstract World getWorld();
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void tick(CallbackInfo info) {

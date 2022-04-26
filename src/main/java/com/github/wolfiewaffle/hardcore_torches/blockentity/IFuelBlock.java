@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,7 +13,7 @@ public interface IFuelBlock {
 
     public void outOfFuel(World world, BlockPos pos, BlockState state);
 
-    default boolean itemValid(ItemStack stack, Tag free, Tag damage, Tag consume) {
+    default boolean itemValid(ItemStack stack, TagKey free, TagKey damage, TagKey consume) {
 
         // Infinite items
         if (stack.isIn(free)) {
@@ -32,7 +33,7 @@ public interface IFuelBlock {
         return false;
     }
 
-    default boolean attemptUse(ItemStack stack, PlayerEntity player, Hand hand, Tag free, Tag damage, Tag consume) {
+    default boolean attemptUse(ItemStack stack, PlayerEntity player, Hand hand, TagKey free, TagKey damage, TagKey consume) {
 
         // Infinite items
         if (stack.isIn(free)) {

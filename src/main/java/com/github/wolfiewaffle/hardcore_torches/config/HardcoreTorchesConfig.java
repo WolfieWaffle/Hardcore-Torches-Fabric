@@ -71,4 +71,10 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("If true, you can right click lanterns to extinguish them while not holding fuel or a torch to light. default false")
     public boolean handUnlightLantern = false;
+
+//    @Comment("0: When going underwater, torches in your inventory will be unaffected\n1: When going underwater, torches in mainhand or offhand will be extinguished\n2: When going underwater, torches in inventory will be extinguished. default 2")
+//    public int invExtinguishInWater = 2;
+//
+//    @Comment("0: When in rain, torches in your inventory will be unaffected\n1: When in rain, torches in mainhand or offhand will be extinguished or smolder\n2: When in rain, torches in inventory will be extinguished or smolder. default 2")
+//    public int invExtinguishInRain = 2;
 }

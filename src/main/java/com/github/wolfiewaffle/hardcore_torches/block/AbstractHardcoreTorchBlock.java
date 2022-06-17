@@ -15,7 +15,6 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
@@ -30,17 +29,20 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
+import java.util.function.IntSupplier;
 
 public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity implements BlockEntityProvider, IFuelBlock {
 
     public ParticleEffect particle;
     public ETorchState burnState;
     public TorchGroup group;
+    public IntSupplier maxFuel;
 
-    public AbstractHardcoreTorchBlock(AbstractBlock.Settings settings, ParticleEffect particle, ETorchState type) {
+    public AbstractHardcoreTorchBlock(AbstractBlock.Settings settings, ParticleEffect particle, ETorchState type, IntSupplier maxFuel) {
         super(settings);
         this.particle = particle;
         this.burnState = type;
+        this.maxFuel = maxFuel;
     }
 
     public void smother(World world, BlockPos pos, BlockState state) {

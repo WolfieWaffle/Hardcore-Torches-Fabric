@@ -10,10 +10,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
+import java.util.function.IntSupplier;
+
 public class HardcoreFloorTorchBlock extends AbstractHardcoreTorchBlock implements BlockEntityProvider {
 
-    public HardcoreFloorTorchBlock(Settings settings, ParticleEffect particle, ETorchState type) {
-        super(settings, particle, type);
+    public HardcoreFloorTorchBlock(Settings settings, ParticleEffect particle, ETorchState type, IntSupplier maxFuel) {
+        super(settings, particle, type, maxFuel);
     }
 
     // region Overridden methods for TorchBlock since I can't extend 2 classes

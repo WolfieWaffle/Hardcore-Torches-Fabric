@@ -37,19 +37,23 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.IntSupplier;
+
 public abstract class AbstractLanternBlock extends BlockWithEntity implements BlockEntityProvider, IFuelBlock {
     public static final BooleanProperty HANGING;
     public static final BooleanProperty WATERLOGGED;
     public boolean isLit;
+    public IntSupplier maxFuel;
 
     static {
         HANGING = Properties.HANGING;
         WATERLOGGED = Properties.WATERLOGGED;
     }
 
-    protected AbstractLanternBlock(Settings settings, boolean isLit) {
+    protected AbstractLanternBlock(Settings settings, boolean isLit, IntSupplier maxFuel) {
         super(settings);
         this.isLit = isLit;
+        this.maxFuel = maxFuel;
     }
 
     public void extinguish(World world, BlockPos pos, BlockState state, boolean playSound) {

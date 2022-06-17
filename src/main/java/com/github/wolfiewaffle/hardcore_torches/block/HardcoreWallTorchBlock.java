@@ -17,15 +17,14 @@ import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.IntSupplier;
+
 public class HardcoreWallTorchBlock extends AbstractHardcoreTorchBlock implements BlockEntityProvider {
 
     public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 
-    public static final double pG = 0.22;
-    public static final double pH = 0.27;
-
-    public HardcoreWallTorchBlock(Settings settings, ParticleEffect particle, ETorchState type) {
-        super(settings, particle, type);
+    public HardcoreWallTorchBlock(Settings settings, ParticleEffect particle, ETorchState type, IntSupplier maxFuel) {
+        super(settings, particle, type, maxFuel);
         setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
     }
 

@@ -2,7 +2,7 @@
     "type": "hardcore_torches:oil_can",
     "ingredients":[
       {
-        "item": "hardcore_torches:animal_fat"
+        "tag": "minecraft:animal_fat"
       },
       {
         "item": "hardcore_torches:oil_can"

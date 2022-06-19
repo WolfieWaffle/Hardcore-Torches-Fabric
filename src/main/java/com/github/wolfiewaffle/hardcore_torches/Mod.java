@@ -62,6 +62,7 @@ public class Mod implements ModInitializer {
 	private static final Identifier SHEEP_LOOT_TABLE_ID = EntityType.SHEEP.getLootTableId();
 
 	// Tags
+	public static final TagKey<Item> TAG_ANIMAL_FAT = TagKey.of(Registry.ITEM_KEY, new Identifier("minecraft", "animal_fat"));
 	public static final TagKey<Item> ALL_TORCH_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "torches"));
 	public static final TagKey<Block> FREE_TORCH_LIGHT_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("hardcore_torches", "free_torch_light_blocks"));
 	public static final TagKey<Item> FREE_TORCH_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "free_torch_light_items"));

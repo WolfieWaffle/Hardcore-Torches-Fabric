@@ -77,4 +77,22 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("0: When in rain, torches in your inventory will be unaffected\n1: When in rain, torches in mainhand or offhand will be extinguished or smolder\n2: When in rain, torches in inventory will be extinguished or smolder. default 2")
     public int invExtinguishInRain = 2;
+
+    @Comment("Can the fire starter light campfires. default true")
+    public boolean starterLightCampfires = true;
+
+    @Comment("Can the fire starter light torches. default true")
+    public boolean starterLightTorches = true;
+
+    @Comment("Can the fire starter create full-block fires. default true")
+    public boolean starterStartFires = true;
+
+    @Comment("Can the fire starter light lanterns. default true")
+    public boolean starterLightLanterns = false;
+
+    @Comment("Percentage chance that the fire starter works. default 0.33")
+    public float starterSuccessChance = 0.33f;
+
+    @Comment("Default fuel that a lantern starts with when crafted. default 0")
+    public int startingLanternFuel = 0;
 }

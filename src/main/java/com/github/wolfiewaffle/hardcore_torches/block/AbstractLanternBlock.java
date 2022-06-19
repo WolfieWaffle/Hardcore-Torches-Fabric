@@ -55,6 +55,9 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
         this.isLit = isLit;
         this.maxFuel = maxFuel;
     }
+    public boolean canLight(World world, BlockPos pos) {
+        return ((LanternBlockEntity) world.getBlockEntity(pos)).getFuel() > 0 && !isLit;
+    }
 
     public void extinguish(World world, BlockPos pos, BlockState state, boolean playSound) {
         if (!world.isClient) {
@@ -78,7 +81,7 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
         BlockState oldState = world.getBlockState(pos);
         BlockState newState = lit ? Mod.LIT_LANTERN.getDefaultState() : Mod.UNLIT_LANTERN.getDefaultState();
         newState = newState.with(HANGING, oldState.get(HANGING)).with(WATERLOGGED, oldState.get(WATERLOGGED));
-        int newFuel = 0;
+        int newFuel = Mod.config.startingLanternFuel;
 
         if (world.getBlockEntity(pos) != null) newFuel = ((FuelBlockEntity) world.getBlockEntity(pos)).getFuel();
         world.setBlockState(pos, newState);

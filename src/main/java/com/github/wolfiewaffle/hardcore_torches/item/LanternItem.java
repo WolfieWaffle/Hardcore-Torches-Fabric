@@ -57,17 +57,12 @@ public class LanternItem extends BlockItem implements FabricItem {
 
     public static int getFuel(ItemStack stack) {
         NbtCompound nbt = stack.getNbt();
-        int fuel;
 
         if (nbt != null) {
             return nbt.getInt("Fuel");
+        } else {
+            return ((LanternItem) stack.getItem()).isLit ? Mod.config.defaultLanternFuel : Mod.config.startingLanternFuel;
         }
-
-        if (stack.getItem() instanceof LanternItem) {
-            return ((LanternItem) stack.getItem()).isLit ? Mod.config.defaultLanternFuel : 0;
-        }
-
-        return 0;
     }
 
     @Override

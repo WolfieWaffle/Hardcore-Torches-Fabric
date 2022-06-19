@@ -6,6 +6,7 @@ import com.github.wolfiewaffle.hardcore_torches.block.LanternBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
+import com.github.wolfiewaffle.hardcore_torches.item.FireStarterItem;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
@@ -94,6 +95,7 @@ public class Mod implements ModInitializer {
 
 	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
 	public static final Item ANIMAL_FAT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
+	public static final Item FIRE_STARTER = new FireStarterItem(new FabricItemSettings().group(ItemGroup.TOOLS));
 
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 
@@ -166,6 +168,7 @@ public class Mod implements ModInitializer {
 
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "animal_fat"), ANIMAL_FAT);
+		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
 
 		// Recipe Types
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());

@@ -1,7 +1,6 @@
 package com.github.wolfiewaffle.hardcore_torches.mixin;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
-import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;

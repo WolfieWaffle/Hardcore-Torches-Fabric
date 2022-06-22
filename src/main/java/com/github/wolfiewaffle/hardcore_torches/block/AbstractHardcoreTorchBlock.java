@@ -20,15 +20,15 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
 import java.util.function.IntSupplier;
 
 public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity implements BlockEntityProvider, IFuelBlock {
@@ -176,7 +176,7 @@ public abstract class AbstractHardcoreTorchBlock extends BlockWithEntity impleme
         // Fuel message
         BlockEntity be = world.getBlockEntity(pos);
         if (be.getType() == Mod.TORCH_BLOCK_ENTITY && !world.isClient && Mod.config.fuelMessage && stack.isEmpty()) {
-            player.sendMessage(new LiteralText("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
+            player.sendMessage(Text.of("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
         }
 
         // Oil Can

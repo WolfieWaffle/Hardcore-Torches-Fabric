@@ -2,19 +2,17 @@ package com.github.wolfiewaffle.hardcore_torches.loot;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
-import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.loot.function.*;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.loot.function.ConditionalLootFunction;
+import net.minecraft.loot.function.LootFunctionType;
 
 public class TorchLootFunction extends ConditionalLootFunction {
 

@@ -8,7 +8,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -137,8 +138,8 @@ public class LanternItem extends BlockItem implements FabricItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (Mod.config.lanternsNeedCan) tooltip.add(new LiteralText("Requires an Oil Can").formatted(Formatting.GRAY));
-        tooltip.add(new LiteralText("Light with Flint and Steel").formatted(Formatting.GRAY));
+        if (Mod.config.lanternsNeedCan) tooltip.add(MutableText.of(new LiteralTextContent("Requires an Oil Can")).formatted(Formatting.GRAY));
+        tooltip.add(MutableText.of(new LiteralTextContent("Light with Flint and Steel")).formatted(Formatting.GRAY));
         super.appendTooltip(stack, world, tooltip, context);
     }
 }

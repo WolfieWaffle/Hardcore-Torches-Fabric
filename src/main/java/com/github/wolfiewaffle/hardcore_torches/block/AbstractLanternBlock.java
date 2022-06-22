@@ -24,7 +24,8 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.tag.ItemTags;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.MutableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -126,7 +127,7 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
             if (((FuelBlockEntity) world.getBlockEntity(pos)).getFuel() < Mod.config.minLanternIgnitionFuel) {
                 if (!world.isClient) {
                     world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_HIT, SoundCategory.BLOCKS, 1f, 1f);
-                    player.sendMessage(new LiteralText("Not enough fuel to ignite!"), true);
+                    player.sendMessage(MutableText.of(new LiteralTextContent("Not enough fuel to ignite!")), true);
                 }
                 player.swingHand(hand);
                 return ActionResult.SUCCESS;
@@ -174,11 +175,11 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
 
         // Fuel message
         if (be.getType() == Mod.LANTERN_BLOCK_ENTITY && !world.isClient && hand == Hand.MAIN_HAND && Mod.config.fuelMessage && showFuel) {
-            player.sendMessage(new LiteralText("Fuel: " + ((FuelBlockEntity) be).getFuel()), true);
+            player.sendMessage(MutableText.of(new LiteralTextContent("Fuel: " + ((FuelBlockEntity) be).getFuel())), true);
         }
 
         if (Mod.config.lanternsNeedCan && !stack.isEmpty() && hand == Hand.MAIN_HAND && stack.getItem() != Mod.OIL_CAN && !world.isClient) {
-            player.sendMessage(new LiteralText("Requires an Oil Can to fuel!"), true);
+            player.sendMessage(MutableText.of(new LiteralTextContent("Requires an Oil Can to fuel!")), true);
         }
 
         // Hand extinguish

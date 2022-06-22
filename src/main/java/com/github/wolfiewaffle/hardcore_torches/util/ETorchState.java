@@ -1,6 +1,5 @@
 package com.github.wolfiewaffle.hardcore_torches.util;
 
-import net.minecraft.block.MapColor;
 import net.minecraft.util.StringIdentifiable;
 
 public enum ETorchState implements StringIdentifiable {
@@ -11,7 +10,7 @@ public enum ETorchState implements StringIdentifiable {
 
     private final String name;
 
-    private ETorchState(String name) {
+    ETorchState(String name) {
         this.name = name;
     }
 

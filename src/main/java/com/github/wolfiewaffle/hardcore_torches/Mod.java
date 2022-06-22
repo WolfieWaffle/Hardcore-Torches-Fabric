@@ -10,7 +10,7 @@ import com.github.wolfiewaffle.hardcore_torches.item.FireStarterItem;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
-import com.github.wolfiewaffle.hardcore_torches.loot.FatLootNumberProvider;
+import com.github.wolfiewaffle.hardcore_torches.loot.HCTLootTableModifier;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.recipe.OilCanRecipe;
@@ -21,8 +21,6 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
@@ -31,12 +29,10 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -176,62 +172,8 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
 
 		// Loot Tables
-		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {
-			if (CHICKEN_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
+		HCTLootTableModifier.registerLootPools();
 
-			if (COW_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 1, 1, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
 
-			if (GOAT_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-
-			if (HOGLIN_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {1, 3, 5, 7}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-
-			if (HORSE_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 0, 0, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-
-			if (MOOSHROOM_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 1, 1, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-
-			if (PIG_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 1, 2, 2}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-
-			if (SHEEP_LOOT_TABLE_ID.equals(id)) {
-				table.pool(FabricLootPoolBuilder.builder()
-						.rolls(new FatLootNumberProvider(new int[] {0, 1}))
-						.with(ItemEntry.builder(ANIMAL_FAT)));
-				return;
-			}
-		});
 	}
 }

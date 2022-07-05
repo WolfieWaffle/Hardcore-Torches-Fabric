@@ -10,7 +10,7 @@ public class HCTLootNumberProviderTypes {
     public static final LootNumberProviderType FAT = register("hardcore_torches:fat", new FatLootNumberProvider.Serializer());
 
     private static LootNumberProviderType register(String id, JsonSerializer<? extends LootNumberProvider> jsonSerializer) {
-        return (LootNumberProviderType) Registry.register(Registry.LOOT_NUMBER_PROVIDER_TYPE, new Identifier(id), new LootNumberProviderType(jsonSerializer));
+        return Registry.register(Registry.LOOT_NUMBER_PROVIDER_TYPE, new Identifier(id), new LootNumberProviderType(jsonSerializer));
     }
 
 }

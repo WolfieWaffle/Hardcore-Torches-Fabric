@@ -26,36 +26,23 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class Mod implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LogManager.getLogger("hardcore_torches");
 
 	public static HardcoreTorchesConfig config;
-
-	// Loot Tables
-	private static final Identifier CHICKEN_LOOT_TABLE_ID = EntityType.CHICKEN.getLootTableId();
-	private static final Identifier COW_LOOT_TABLE_ID = EntityType.COW.getLootTableId();
-	private static final Identifier GOAT_LOOT_TABLE_ID = EntityType.GOAT.getLootTableId();
-	private static final Identifier HOGLIN_LOOT_TABLE_ID = EntityType.HOGLIN.getLootTableId();
-	private static final Identifier HORSE_LOOT_TABLE_ID = EntityType.HORSE.getLootTableId();
-	private static final Identifier MOOSHROOM_LOOT_TABLE_ID = EntityType.MOOSHROOM.getLootTableId();
-	private static final Identifier PIG_LOOT_TABLE_ID = EntityType.PIG.getLootTableId();
-	private static final Identifier SHEEP_LOOT_TABLE_ID = EntityType.SHEEP.getLootTableId();
 
 	// Tags
 	public static final TagKey<Item> TAG_ANIMAL_FAT = TagKey.of(Registry.ITEM_KEY, new Identifier("minecraft", "animal_fat"));
@@ -102,6 +89,8 @@ public class Mod implements ModInitializer {
 	// Recipe Types
 	public static final RecipeType<OilCanRecipe> OIL_CAN_RECIPE = RecipeType.register("hardcore_torches:oil_can");
 	public static final RecipeType<TorchRecipe> TORCH_RECIPE = RecipeType.register("hardcore_torches:torch");
+	public static RecipeSerializer<OilCanRecipe> OIL_RECIPE_SERIALIZER;
+	public static RecipeSerializer<TorchRecipe> TORCH_RECIPE_SERIALIZER;
 
 	@Override
 	public void onInitialize() {
@@ -168,8 +157,8 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
 
 		// Recipe Types
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
+		OIL_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
+		TORCH_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
 
 		// Loot Tables
 		HCTLootTableModifier.registerLootPools();

@@ -21,7 +21,7 @@ public class TorchRecipe extends ShapedRecipe {
     }
 
     public RecipeSerializer<?> getSerializer() {
-        return new Serializer();
+        return Mod.TORCH_RECIPE_SERIALIZER;
     }
 
     @Override

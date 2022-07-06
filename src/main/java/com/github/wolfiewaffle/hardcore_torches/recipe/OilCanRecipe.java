@@ -24,7 +24,7 @@ public class OilCanRecipe extends ShapelessRecipe {
     }
 
     public RecipeSerializer<?> getSerializer() {
-        return new Serializer();
+        return Mod.OIL_RECIPE_SERIALIZER;
     }
 
     @Override

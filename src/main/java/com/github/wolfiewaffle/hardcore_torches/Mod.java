@@ -34,6 +34,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.tag.Tag;
@@ -106,6 +107,8 @@ public class Mod implements ModInitializer {
 	// Recipe Types
 	public static final RecipeType<OilCanRecipe> OIL_CAN_RECIPE = RecipeType.register("hardcore_torches:oil_can");
 	public static final RecipeType<TorchRecipe> TORCH_RECIPE = RecipeType.register("hardcore_torches:torch");
+	public static RecipeSerializer<OilCanRecipe> OIL_RECIPE_SERIALIZER;
+	public static RecipeSerializer<TorchRecipe> TORCH_RECIPE_SERIALIZER;
 
 	@Override
 	public void onInitialize() {
@@ -172,8 +175,8 @@ public class Mod implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
 
 		// Recipe Types
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
-		Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
+		OIL_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
+		TORCH_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
 
 		// Loot Tables
 		LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, table, setter) -> {

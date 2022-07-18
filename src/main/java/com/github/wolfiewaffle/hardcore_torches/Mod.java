@@ -11,6 +11,7 @@ import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.loot.FatLootNumberProvider;
+import com.github.wolfiewaffle.hardcore_torches.loot.HCTLootNumberProviderTypes;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.recipe.OilCanRecipe;
@@ -112,6 +113,8 @@ public class Mod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		HCTLootNumberProviderTypes.loadThisClass();
+
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.

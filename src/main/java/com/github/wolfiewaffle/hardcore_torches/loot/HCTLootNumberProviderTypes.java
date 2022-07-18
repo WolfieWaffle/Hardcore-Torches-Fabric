@@ -13,4 +13,5 @@ public class HCTLootNumberProviderTypes {
         return (LootNumberProviderType) Registry.register(Registry.LOOT_NUMBER_PROVIDER_TYPE, new Identifier(id), new LootNumberProviderType(jsonSerializer));
     }
 
+    public static void loadThisClass() {}
 }

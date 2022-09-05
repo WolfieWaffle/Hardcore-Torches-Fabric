@@ -95,4 +95,7 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("Default fuel that a lantern starts with when crafted. default 0")
     public int startingLanternFuel = 0;
+
+    @Comment("Allow the player to pick up lanterns with sneak-clicking. default true")
+    public boolean pickUpLanterns = true;
 }

@@ -4,6 +4,7 @@ import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.IFuelBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.util.TorchTools;
@@ -112,7 +113,7 @@ public abstract class AbstractLanternBlock extends BlockWithEntity implements Bl
         boolean success = false;
 
         // Pick up lantern
-        if (player.isSneaking()) {
+        if (player.isSneaking() && Mod.config.pickUpLanterns) {
             if (!world.isClient) player.giveItemStack(getStack(world, pos));
             world.setBlockState(pos, Blocks.AIR.getDefaultState());
             if (!world.isClient) world.playSound(null, pos, SoundEvents.BLOCK_LANTERN_PLACE, SoundCategory.BLOCKS, 1f, 1f);

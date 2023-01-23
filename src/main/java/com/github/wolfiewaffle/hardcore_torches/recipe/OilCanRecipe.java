@@ -1,6 +1,7 @@
 package com.github.wolfiewaffle.hardcore_torches.recipe;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
+import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.CraftingInventory;
@@ -45,8 +46,14 @@ public class OilCanRecipe extends ShapelessRecipe {
                 OilCanItem can = (OilCanItem) itemstack.getItem();
 
                 startFuel = can.getFuel(itemstack);
+                int fuel = (int) (fuelAmount * Mod.config.oilRecipeMultiplier);
+                System.out.println("REC " + Mod.config.oilRecipeOverride);
+                if (Mod.config.oilRecipeOverride > -1) {
+                    fuel = Mod.config.oilRecipeOverride;
+                    System.out.println("REC " + fuel);
+                }
 
-                return OilCanItem.setFuel(itemstack.copy(), startFuel + (fuelAmount * Mod.config.oilRecipeMultiplier));
+                return OilCanItem.setFuel(itemstack.copy(), startFuel + fuel);
             }
         }
 

@@ -58,7 +58,10 @@ public class HardcoreTorchesConfig implements ConfigData {
     public boolean torchesUseCan = false;
 
     @Comment("Multiplies the fuel value of all oil can recipes. 0.5 makes all fuel recipes return half as much fuel. default 1")
-    public int oilRecipeMultiplier = 1;
+    public float oilRecipeMultiplier = 1;
+
+    @Comment("Overrides the oil can fuel recipe if set. default -1")
+    public int oilRecipeOverride = -1;
 
     @Comment("If true, you can craft animal fat with an oil can to fill it. You can also add custom fill recipes with a datapack, open the mod jar to see the JSON format. default true")
     public boolean enableFatOil = true;

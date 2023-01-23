@@ -11,13 +11,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
 public class TorchRecipe extends ShapedRecipe {
 
     public TorchRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
-        super(id, group, width, height, input, output);
+        super(id, group, CraftingRecipeCategory.EQUIPMENT, width, height, input, output);
     }
 
     public RecipeSerializer<?> getSerializer() {
@@ -60,7 +61,7 @@ public class TorchRecipe extends ShapedRecipe {
 
         @Override
         public void write(PacketByteBuf friendlyByteBuf, TorchRecipe torchRecipe) {
-            ShapedRecipe rec = new ShapedRecipe(torchRecipe.getId(), torchRecipe.getGroup(), torchRecipe.getWidth(), torchRecipe.getHeight(), torchRecipe.getIngredients(), torchRecipe.getOutput());
+            ShapedRecipe rec = new ShapedRecipe(torchRecipe.getId(), torchRecipe.getGroup(), CraftingRecipeCategory.EQUIPMENT, torchRecipe.getWidth(), torchRecipe.getHeight(), torchRecipe.getIngredients(), torchRecipe.getOutput());
 
             ShapedRecipe.Serializer.SHAPED.write(friendlyByteBuf, rec);
         }

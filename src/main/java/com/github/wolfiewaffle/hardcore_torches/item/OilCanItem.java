@@ -140,13 +140,4 @@ public class OilCanItem extends Item implements FabricItem {
         return false;
     }
     // endregion
-
-    @Override
-    public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
-        super.appendStacks(group, stacks);
-
-        if (this.isIn(group)) {
-            stacks.add(OilCanItem.setFuel(new ItemStack(this), Mod.config.maxCanFuel));
-        }
-    }
 }

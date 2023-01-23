@@ -10,6 +10,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapelessRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -19,7 +20,7 @@ public class OilCanRecipe extends ShapelessRecipe {
     final int configType;
 
     public OilCanRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input, int fuelAmount, int configType) {
-        super(id, group, output, input);
+        super(id, group, CraftingRecipeCategory.EQUIPMENT, output, input);
         this.fuelAmount = fuelAmount;
         this.configType = configType;
     }
@@ -86,7 +87,7 @@ public class OilCanRecipe extends ShapelessRecipe {
 
         @Override
         public void write(PacketByteBuf friendlyByteBuf, OilCanRecipe oilCanRecipe) {
-            ShapelessRecipe rec = new ShapelessRecipe(oilCanRecipe.getId(), oilCanRecipe.getGroup(), oilCanRecipe.getOutput(), oilCanRecipe.getIngredients());
+            ShapelessRecipe rec = new ShapelessRecipe(oilCanRecipe.getId(), oilCanRecipe.getGroup(), CraftingRecipeCategory.EQUIPMENT, oilCanRecipe.getOutput(), oilCanRecipe.getIngredients());
             ShapelessRecipe.Serializer.SHAPELESS.write(friendlyByteBuf, rec);
 
             friendlyByteBuf.writeVarInt(oilCanRecipe.fuelAmount);

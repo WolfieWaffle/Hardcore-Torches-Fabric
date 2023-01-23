@@ -22,21 +22,25 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class Mod implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
@@ -46,21 +50,21 @@ public class Mod implements ModInitializer {
 	public static HardcoreTorchesConfig config;
 
 	// Tags
-	public static final TagKey<Item> TAG_ANIMAL_FAT = TagKey.of(Registry.ITEM_KEY, new Identifier("minecraft", "animal_fat"));
-	public static final TagKey<Item> ALL_TORCH_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "torches"));
-	public static final TagKey<Block> FREE_TORCH_LIGHT_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier("hardcore_torches", "free_torch_light_blocks"));
-	public static final TagKey<Item> FREE_TORCH_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "free_torch_light_items"));
-	public static final TagKey<Item> DAMAGE_TORCH_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "damage_torch_light_items"));
-	public static final TagKey<Item> CONSUME_TORCH_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "consume_torch_light_items"));
-	public static final TagKey<Item> FREE_TORCH_EXTINGUISH_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "free_torch_extinguish_items"));
-	public static final TagKey<Item> DAMAGE_TORCH_EXTINGUISH_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "damage_torch_extinguish_items"));
-	public static final TagKey<Item> CONSUME_TORCH_EXTINGUISH_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "consume_torch_smother_items"));
-	public static final TagKey<Item> FREE_TORCH_SMOTHER_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "free_torch_smother_items"));
-	public static final TagKey<Item> DAMAGE_TORCH_SMOTHER_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "damage_torch_smother_items"));
-	public static final TagKey<Item> CONSUME_TORCH_SMOTHER_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "consume_torch_smother_items"));
-	public static final TagKey<Item> FREE_LANTERN_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "free_lantern_light_items"));
-	public static final TagKey<Item> DAMAGE_LANTERN_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "damage_lantern_light_items"));
-	public static final TagKey<Item> CONSUME_LANTERN_LIGHT_ITEMS = TagKey.of(Registry.ITEM_KEY, new Identifier("hardcore_torches", "consume_lantern_light_items"));
+	public static final TagKey<Item> TAG_ANIMAL_FAT = TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "animal_fat"));
+	public static final TagKey<Item> ALL_TORCH_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "torches"));
+	public static final TagKey<Block> FREE_TORCH_LIGHT_BLOCKS = TagKey.of(RegistryKeys.BLOCK, new Identifier("hardcore_torches", "free_torch_light_blocks"));
+	public static final TagKey<Item> FREE_TORCH_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "free_torch_light_items"));
+	public static final TagKey<Item> DAMAGE_TORCH_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "damage_torch_light_items"));
+	public static final TagKey<Item> CONSUME_TORCH_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "consume_torch_light_items"));
+	public static final TagKey<Item> FREE_TORCH_EXTINGUISH_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "free_torch_extinguish_items"));
+	public static final TagKey<Item> DAMAGE_TORCH_EXTINGUISH_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "damage_torch_extinguish_items"));
+	public static final TagKey<Item> CONSUME_TORCH_EXTINGUISH_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "consume_torch_smother_items"));
+	public static final TagKey<Item> FREE_TORCH_SMOTHER_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "free_torch_smother_items"));
+	public static final TagKey<Item> DAMAGE_TORCH_SMOTHER_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "damage_torch_smother_items"));
+	public static final TagKey<Item> CONSUME_TORCH_SMOTHER_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "consume_torch_smother_items"));
+	public static final TagKey<Item> FREE_LANTERN_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "free_lantern_light_items"));
+	public static final TagKey<Item> DAMAGE_LANTERN_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "damage_lantern_light_items"));
+	public static final TagKey<Item> CONSUME_LANTERN_LIGHT_ITEMS = TagKey.of(RegistryKeys.ITEM, new Identifier("hardcore_torches", "consume_lantern_light_items"));
 
 	public static final LootFunctionType HARDCORE_TORCH_LOOT_FUNCTION = new LootFunctionType(new TorchLootFunction.Serializer());
 	public static final LootFunctionType FUEL_LOOT_FUNCTION = new LootFunctionType(new LanternLootFunction.Serializer());
@@ -78,9 +82,9 @@ public class Mod implements ModInitializer {
 	public static final Block LIT_LANTERN = new LanternBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().luminance(state -> 15).sounds(BlockSoundGroup.LANTERN), true, () -> config.defaultLanternFuel);
 	public static final Block UNLIT_LANTERN = new LanternBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().sounds(BlockSoundGroup.LANTERN), false, () -> config.defaultLanternFuel);
 
-	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
-	public static final Item ANIMAL_FAT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
-	public static final Item FIRE_STARTER = new FireStarterItem(new FabricItemSettings().group(ItemGroup.TOOLS));
+	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().maxCount(1));
+	public static final Item ANIMAL_FAT = new Item(new FabricItemSettings());
+	public static final Item FIRE_STARTER = new FireStarterItem(new FabricItemSettings());
 
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 
@@ -128,40 +132,54 @@ public class Mod implements ModInitializer {
 		AutoConfig.register(HardcoreTorchesConfig.class, JanksonConfigSerializer::new);
 		config = AutoConfig.getConfigHolder(HardcoreTorchesConfig.class).getConfig();
 
-		Registry.register(Registry.LOOT_FUNCTION_TYPE, "hardcore_torches:torch", HARDCORE_TORCH_LOOT_FUNCTION);
-		Registry.register(Registry.LOOT_FUNCTION_TYPE, "hardcore_torches:set_damage", FUEL_LOOT_FUNCTION);
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, "hardcore_torches:torch", HARDCORE_TORCH_LOOT_FUNCTION);
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, "hardcore_torches:set_damage", FUEL_LOOT_FUNCTION);
 
-		TORCH_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "hardcore_torches:torch_block_entity", FabricBlockEntityTypeBuilder.create(TorchBlockEntity::new, teTorchBlocks).build(null));
-		LANTERN_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, "hardcore_torches:lantern_entity", FabricBlockEntityTypeBuilder.create(LanternBlockEntity::new, teLanternBlocks).build(null));
+		TORCH_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "hardcore_torches:torch_block_entity", FabricBlockEntityTypeBuilder.create(TorchBlockEntity::new, teTorchBlocks).build(null));
+		LANTERN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "hardcore_torches:lantern_entity", FabricBlockEntityTypeBuilder.create(LanternBlockEntity::new, teLanternBlocks).build(null));
 
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "lit_torch"), LIT_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "unlit_torch"), UNLIT_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "smoldering_torch"), SMOLDERING_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "burnt_torch"), BURNT_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "lit_torch"), LIT_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "unlit_torch"), UNLIT_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "smoldering_torch"), SMOLDERING_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "burnt_torch"), BURNT_TORCH);
 
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "lit_wall_torch"), LIT_WALL_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "unlit_wall_torch"), UNLIT_WALL_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "smoldering_wall_torch"), SMOLDERING_WALL_TORCH);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "burnt_wall_torch"), BURNT_WALL_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "lit_wall_torch"), LIT_WALL_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "unlit_wall_torch"), UNLIT_WALL_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "smoldering_wall_torch"), SMOLDERING_WALL_TORCH);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "burnt_wall_torch"), BURNT_WALL_TORCH);
 
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "lit_lantern"), LIT_LANTERN);
-		Registry.register(Registry.BLOCK, new Identifier("hardcore_torches", "unlit_lantern"), UNLIT_LANTERN);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "lit_lantern"), LIT_LANTERN);
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "unlit_lantern"), UNLIT_LANTERN);
 
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_torch"), new TorchItem(LIT_TORCH, LIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.LIT, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_torch"), new TorchItem(UNLIT_TORCH, UNLIT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.UNLIT, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "smoldering_torch"), new TorchItem(SMOLDERING_TORCH, SMOLDERING_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.SMOLDERING, config.defaultTorchFuel, basicTorches));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "burnt_torch"), new TorchItem(BURNT_TORCH, BURNT_WALL_TORCH, new FabricItemSettings().group(ItemGroup.DECORATIONS), ETorchState.BURNT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "lit_torch"), new TorchItem(LIT_TORCH, LIT_WALL_TORCH, new FabricItemSettings(), ETorchState.LIT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "unlit_torch"), new TorchItem(UNLIT_TORCH, UNLIT_WALL_TORCH, new FabricItemSettings(), ETorchState.UNLIT, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "smoldering_torch"), new TorchItem(SMOLDERING_TORCH, SMOLDERING_WALL_TORCH, new FabricItemSettings(), ETorchState.SMOLDERING, config.defaultTorchFuel, basicTorches));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "burnt_torch"), new TorchItem(BURNT_TORCH, BURNT_WALL_TORCH, new FabricItemSettings(), ETorchState.BURNT, config.defaultTorchFuel, basicTorches));
 
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "lit_lantern"), new LanternItem(LIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, true));
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(1), config.defaultLanternFuel, false));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "lit_lantern"), new LanternItem(LIT_LANTERN, new FabricItemSettings().maxCount(1), config.defaultLanternFuel, true));
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "unlit_lantern"), new LanternItem(UNLIT_LANTERN, new FabricItemSettings().maxCount(1), config.defaultLanternFuel, false));
 
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "animal_fat"), ANIMAL_FAT);
-		Registry.register(Registry.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "animal_fat"), ANIMAL_FAT);
+		Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
+
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> entries.add(ANIMAL_FAT));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(OIL_CAN));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> OilCanItem.setFuel(new ItemStack(OIL_CAN), Mod.config.maxCanFuel));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> entries.add(FIRE_STARTER));
+
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(LIT_TORCH));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(UNLIT_TORCH));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(SMOLDERING_TORCH));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(BURNT_TORCH));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(LIT_LANTERN));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(UNLIT_LANTERN));
+		//ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(LIT_SOUL_LANTERN));
+		//ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(UNLIT_SOUL_LANTERN));
 
 		// Recipe Types
-		OIL_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
-		TORCH_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
+		OIL_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
+		TORCH_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
 
 		// Loot Tables
 		HCTLootTableModifier.registerLootPools();

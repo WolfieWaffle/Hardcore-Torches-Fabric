@@ -7,6 +7,7 @@ import com.github.wolfiewaffle.hardcore_torches.util.TorchGroup;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.WallBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.*;
@@ -19,16 +20,17 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class TorchItem extends WallStandingBlockItem implements FabricItem {
+public class TorchItem extends VerticallyAttachableBlockItem implements FabricItem {
     ETorchState torchState;
     TorchGroup torchGroup;
     int maxFuel;
 
-    public TorchItem(Block standingBlock, Block wallBlock, Settings settings, ETorchState torchState, int maxFuel, TorchGroup group) {
-        super(standingBlock, wallBlock, settings);
+    public TorchItem(Block standingBlock, Block wallBlock, Item.Settings settings, ETorchState torchState, int maxFuel, TorchGroup group) {
+        super(standingBlock, wallBlock, settings, Direction.DOWN);
         this.torchState = torchState;
         this.maxFuel = maxFuel;
         this.torchGroup = group;

@@ -16,10 +16,12 @@ public class LanternBlockEntity extends FuelBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, LanternBlockEntity be) {
 
         // Burn out
-        if (be.fuel >= 0 && ((AbstractLanternBlock) world.getBlockState(pos).getBlock()).isLit) {
-            be.changeFuel(-1);
-        }
+        if(world.getBlockState(pos).getBlock() instanceof AbstractLanternBlock) {
+            if (be.fuel >= 0 && ((AbstractLanternBlock) world.getBlockState(pos).getBlock()).isLit) {
+                be.changeFuel(-1);
+            }
 
-        be.markDirty();
+            be.markDirty();
+        }
     }
 }

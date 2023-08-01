@@ -18,6 +18,15 @@ repositories {
 	// for more information about repositories.
 	
 	maven { url "https://maven.shedaniel.me/" }
+
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
+		name = "Ladysnake Libs"
+		url = 'https://maven.ladysnake.org/releases'
+	}
 }
 
 dependencies {
@@ -28,6 +37,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	modImplementation "dev.emi:trinkets:3.4.1"
 	
 	modApi("me.shedaniel.cloth:cloth-config-fabric:6.0.45") {
         exclude(group: "net.fabricmc.fabric-api")

@@ -5,6 +5,7 @@ import com.github.wolfiewaffle.hardcore_torches.block.HardcoreWallTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.LanternBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.compat.TrinketsCompat;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import com.github.wolfiewaffle.hardcore_torches.item.FireStarterItem;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
@@ -24,6 +25,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
@@ -166,6 +168,9 @@ public class Mod implements ModInitializer {
 		// Loot Tables
 		HCTLootTableModifier.registerLootPools();
 
-
+		// Trinkets Compat
+		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+			TrinketsCompat.registerTrinkets();
+		}
 	}
 }

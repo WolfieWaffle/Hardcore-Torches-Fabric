@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "hardcore_torches:lit_lantern",
+	"hardcore_torches:unlit_lantern"
+  ]
+}

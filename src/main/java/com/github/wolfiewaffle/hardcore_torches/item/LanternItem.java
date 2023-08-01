@@ -1,6 +1,7 @@
 package com.github.wolfiewaffle.hardcore_torches.item;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;

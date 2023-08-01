@@ -26,6 +26,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
     }
 
     private static void tickLit(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+        if (!Mod.config.tickInWorldTorch) return;
 
         // Extinguish
         if (Mod.config.torchesRain && world.hasRain(pos)) {
@@ -50,7 +51,8 @@ public class TorchBlockEntity extends FuelBlockEntity {
         be.markDirty();
     }
 
-        private static void tickSmoldering(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+    private static void tickSmoldering(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
+        if (!Mod.config.tickInWorldTorch) return;
 
         // Burn out
         if (random.nextInt(3) == 0) {

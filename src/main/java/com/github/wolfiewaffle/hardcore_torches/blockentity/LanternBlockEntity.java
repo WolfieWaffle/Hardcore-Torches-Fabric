@@ -2,6 +2,7 @@ package com.github.wolfiewaffle.hardcore_torches.blockentity;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractLanternBlock;
+import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -14,6 +15,7 @@ public class LanternBlockEntity extends FuelBlockEntity {
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, LanternBlockEntity be) {
+        if (!Mod.config.tickInWorldLantern) return;
 
         // Burn out
         if(world.getBlockState(pos).getBlock() instanceof AbstractLanternBlock) {

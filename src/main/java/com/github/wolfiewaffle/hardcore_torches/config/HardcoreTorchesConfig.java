@@ -42,6 +42,12 @@ public class HardcoreTorchesConfig implements ConfigData {
     @Comment("Do torches lose fuel while the player has then in their inventory. default false")
     public boolean tickInInventory = false;
 
+    @Comment("Do torches lose fuel when placed in the world. default true")
+    public boolean tickInWorldTorch = true;
+
+    @Comment("Do lanterns lose fuel when placed in the world. default true")
+    public boolean tickInWorldLantern = true;
+
     @Comment("How many torches are crafted. default 4")
     public int craftAmount = 4;
 

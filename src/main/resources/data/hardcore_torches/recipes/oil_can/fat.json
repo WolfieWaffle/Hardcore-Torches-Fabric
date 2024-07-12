@@ -1,0 +1,17 @@
+{
+    "type": "hardcore_torches:oil_can",
+    "ingredients":[
+      {
+        "item": "hardcore_torches:animal_fat"
+      },
+      {
+        "item": "hardcore_torches:oil_can"
+      }
+    ],
+    "result": {
+      "item": "hardcore_torches:oil_can"
+    },
+    "fuel": 72000,
+	"config_type": 0,
+	"_comment": "If you are making a custom fuel recipe: Copy this file, set config_type to 2, change fuel amount, and change the item which is NOT the oil can. Remember to pay attention to tag vs item."
+}

@@ -1,0 +1,10 @@
+{
+  "block.hardcore_torches.lit_torch": "Зажженный факел",
+  "block.hardcore_torches.unlit_torch": "Факел",
+  "block.hardcore_torches.smoldering_torch": "Тлеющий факел",
+  "block.hardcore_torches.burnt_torch": "Сгоревший факел",
+  "block.hardcore_torches.lit_lantern": "Зажженный фонарь",
+  "block.hardcore_torches.unlit_lantern": "Фонарь",
+  "item.hardcore_torches.oil_can": "Маслёнка",
+  "item.hardcore_torches.animal_fat": "Животный жир"
+}

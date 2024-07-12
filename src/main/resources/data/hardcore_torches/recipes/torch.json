@@ -1,0 +1,24 @@
+{
+    "type": "hardcore_torches:torch",
+    "pattern":
+    [
+        "#",
+        "|"
+    ],
+    "key":
+    {
+        "#":
+        {
+            "tag": "minecraft:coals"
+        },
+        "|":
+        {
+            "item": "minecraft:stick"
+        }
+    },
+    "result":
+    {
+        "item": "hardcore_torches:lit_torch",
+        "count": 1
+    }
+}

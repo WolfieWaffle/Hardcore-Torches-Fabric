@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+		"hardcore_torches:lit_torch",
+		"hardcore_torches:unlit_torch",
+		"hardcore_torches:smoldering_torch",
+		"hardcore_torches:burnt_torch"	
+    ]
+}

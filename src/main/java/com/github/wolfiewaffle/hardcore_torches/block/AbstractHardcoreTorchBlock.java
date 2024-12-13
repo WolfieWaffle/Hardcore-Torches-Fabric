@@ -3,6 +3,7 @@ package com.github.wolfiewaffle.hardcore_torches.block;
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.IFuelBlock;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.HardcoreCampfireBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
@@ -118,7 +119,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
     // region BlockEntity code
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new TorchBlockEntity(pos, state);
+        return new HardcoreCampfireBlockEntity(pos, state);
     }
 
     // Is invisible without this
@@ -131,7 +132,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
     // Needed for ticking, idk what it means
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return type == Mod.TORCH_BLOCK_ENTITY ? (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, (TorchBlockEntity) be) : null;
+        return type == Mod.TORCH_BLOCK_ENTITY ? (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, (HardcoreCampfireBlockEntity) be) : null;
     }
     //endregion
 
@@ -176,7 +177,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
         // Fuel message
         BlockEntity be = world.getBlockEntity(pos);
         if (be.getType() == Mod.TORCH_BLOCK_ENTITY && !world.isClient && Mod.config.fuelMessage && stack.isEmpty()) {
-            player.sendMessage(Text.of("Fuel: " + ((TorchBlockEntity) be).getFuel()), true);
+            player.sendMessage(Text.of("Fuel: " + ((HardcoreCampfireBlockEntity) be).getFuel()), true);
         }
 
         // Oil Can

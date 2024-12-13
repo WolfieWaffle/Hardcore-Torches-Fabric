@@ -3,15 +3,14 @@ package com.github.wolfiewaffle.hardcore_torches.item;
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.FuelBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.HardcoreCampfireBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 

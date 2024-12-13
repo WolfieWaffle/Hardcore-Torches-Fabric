@@ -1,5 +1,7 @@
 package com.github.wolfiewaffle.hardcore_torches.blockentity;
 
+import com.github.wolfiewaffle.hardcore_torches.Mod;
+import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -56,5 +58,53 @@ public interface IFuelBlock {
         }
 
         return false;
+    }
+
+    default boolean attemptUseItem(ItemStack stack, PlayerEntity player, Hand hand, ETorchState attemptedState) {
+        switch (attemptedState) {
+            case LIT:
+                return attemptUse(stack, player, hand, getFreeLightItems(), getDamageLightItems(), getConsumeLightItems());
+            case SMOLDERING:
+                return attemptUse(stack, player, hand, getFreeSmotherItems(), getDamageSmotherItems(), getConsumeSmotherItems());
+            case UNLIT:
+                return attemptUse(stack, player, hand, getFreeExtinguishItems(), getDamageExtinguishItems(), getConsumeExtinguishItems());
+        }
+        return false;
+    }
+
+    default TagKey getFreeLightItems() {
+        return Mod.FREE_TORCH_LIGHT_ITEMS;
+    }
+
+    default TagKey getDamageLightItems() {
+        return Mod.DAMAGE_TORCH_LIGHT_ITEMS;
+    }
+
+    default TagKey getConsumeLightItems() {
+        return Mod.CONSUME_TORCH_LIGHT_ITEMS;
+    }
+
+    default TagKey getFreeExtinguishItems() {
+        return Mod.FREE_TORCH_EXTINGUISH_ITEMS;
+    }
+
+    default TagKey getDamageExtinguishItems() {
+        return Mod.DAMAGE_TORCH_EXTINGUISH_ITEMS;
+    }
+
+    default TagKey getConsumeExtinguishItems() {
+        return Mod.CONSUME_TORCH_EXTINGUISH_ITEMS;
+    }
+
+    default TagKey getFreeSmotherItems() {
+        return Mod.FREE_TORCH_SMOTHER_ITEMS;
+    }
+
+    default TagKey getDamageSmotherItems() {
+        return Mod.DAMAGE_TORCH_SMOTHER_ITEMS;
+    }
+
+    default TagKey getConsumeSmotherItems() {
+        return Mod.CONSUME_TORCH_SMOTHER_ITEMS;
     }
 }

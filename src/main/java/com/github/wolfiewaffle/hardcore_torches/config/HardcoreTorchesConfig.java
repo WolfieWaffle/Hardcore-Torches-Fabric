@@ -101,4 +101,10 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("Allow the player to pick up lanterns with sneak-clicking. default true")
     public boolean pickUpLanterns = true;
+
+    @Comment("Max campfire fuel. default 24000")
+    public int maxCampfireFuel = 24000;
+
+    @Comment("Duration for fuel items in campfire is furnace burn time, times this number. default 8.0")
+    public double campfireFuelFactor = 8.0;
 }

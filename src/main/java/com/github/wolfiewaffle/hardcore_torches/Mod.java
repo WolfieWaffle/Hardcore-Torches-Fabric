@@ -1,9 +1,11 @@
 package com.github.wolfiewaffle.hardcore_torches;
 
+import com.github.wolfiewaffle.hardcore_torches.block.HardcoreCampfire;
 import com.github.wolfiewaffle.hardcore_torches.block.HardcoreFloorTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.HardcoreWallTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.LanternBlock;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.LanternBlockEntity;
+import com.github.wolfiewaffle.hardcore_torches.blockentity.HardcoreCampfireBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.blockentity.TorchBlockEntity;
 import com.github.wolfiewaffle.hardcore_torches.compat.TrinketsCompat;
 import com.github.wolfiewaffle.hardcore_torches.config.HardcoreTorchesConfig;
@@ -32,9 +34,13 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.MapColor;
+import net.minecraft.block.NoteBlock;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.enums.Instrument;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
@@ -53,6 +59,8 @@ import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.MusicSound;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -101,15 +109,20 @@ public class Mod implements ModInitializer {
 	public static final Block LIT_LANTERN = new LanternBlock(FabricBlockSettings.create().mapColor(MapColor.CLEAR).pistonBehavior(PistonBehavior.DESTROY).noCollision().breakInstantly().luminance(state -> 15).sounds(BlockSoundGroup.LANTERN), true, () -> config.defaultLanternFuel);
 	public static final Block UNLIT_LANTERN = new LanternBlock(FabricBlockSettings.create().mapColor(MapColor.CLEAR).pistonBehavior(PistonBehavior.DESTROY).noCollision().breakInstantly().sounds(BlockSoundGroup.LANTERN), false, () -> config.defaultLanternFuel);
 
+	public static final Block CAMPFIRE_BLOCK = new HardcoreCampfire(true, 1, FabricBlockSettings.create().mapColor(MapColor.BROWN).instrument(Instrument.BASS).strength(2.0F).sounds(BlockSoundGroup.WOOD).luminance(HardcoreCampfire.litBlockEmission(15)).nonOpaque());
+
 	public static final Item OIL_CAN = new OilCanItem(new FabricItemSettings().maxCount(1));
 	public static final Item ANIMAL_FAT = new Item(new FabricItemSettings());
 	public static final Item FIRE_STARTER = new FireStarterItem(new FabricItemSettings());
+
+	public static final Item CAMPFIRE_ITEM = new BlockItem(CAMPFIRE_BLOCK, new FabricItemSettings());
 
 	public static TorchGroup basicTorches = new TorchGroup("basic");
 	public static LanternGroup basicLanterns = new LanternGroup("basic");
 
 	public static BlockEntityType<TorchBlockEntity> TORCH_BLOCK_ENTITY;
 	public static BlockEntityType<LanternBlockEntity> LANTERN_BLOCK_ENTITY;
+	public static BlockEntityType<HardcoreCampfireBlockEntity> CAMPFIRE_BLOCK_ENTITY;
 
 	// Recipe Types
 	public static final RecipeType<OilCanRecipe> OIL_CAN_RECIPE = RecipeType.register("hardcore_torches:oil_can");
@@ -190,6 +203,7 @@ public class Mod implements ModInitializer {
 
 		TORCH_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "hardcore_torches:torch_block_entity", FabricBlockEntityTypeBuilder.create(TorchBlockEntity::new, teTorchBlocks).build(null));
 		LANTERN_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "hardcore_torches:lantern_entity", FabricBlockEntityTypeBuilder.create(LanternBlockEntity::new, teLanternBlocks).build(null));
+		CAMPFIRE_BLOCK_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, "hardcore_torches:campfire_entity", FabricBlockEntityTypeBuilder.create(HardcoreCampfireBlockEntity::new, CAMPFIRE_BLOCK).build(null));
 
 		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "lit_torch"), LIT_TORCH);
 		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "unlit_torch"), UNLIT_TORCH);
@@ -204,6 +218,8 @@ public class Mod implements ModInitializer {
 		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "lit_lantern"), LIT_LANTERN);
 		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "unlit_lantern"), UNLIT_LANTERN);
 
+		Registry.register(Registries.BLOCK, new Identifier("hardcore_torches", "hardcore_campfire"), CAMPFIRE_BLOCK);
+
 		Item litTorch = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "lit_torch"), new TorchItem(LIT_TORCH, LIT_WALL_TORCH, new FabricItemSettings(), ETorchState.LIT, config.defaultTorchFuel, basicTorches));
 		Item unlitTorch = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "unlit_torch"), new TorchItem(UNLIT_TORCH, UNLIT_WALL_TORCH, new FabricItemSettings(), ETorchState.UNLIT, config.defaultTorchFuel, basicTorches));
 		Item smolderingTorch = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "smoldering_torch"), new TorchItem(SMOLDERING_TORCH, SMOLDERING_WALL_TORCH, new FabricItemSettings(), ETorchState.SMOLDERING, config.defaultTorchFuel, basicTorches));
@@ -215,6 +231,8 @@ public class Mod implements ModInitializer {
 		Item oilCan = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "oil_can"), OIL_CAN);
 		Item animalFat = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "animal_fat"), ANIMAL_FAT);
 		Item fireStarter = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "fire_starter"), FIRE_STARTER);
+
+		Item campfire = Registry.register(Registries.ITEM, new Identifier("hardcore_torches", "unlit_campfire"), CAMPFIRE_ITEM);
 
 		// Recipe Types
 		OIL_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
@@ -307,6 +325,7 @@ public class Mod implements ModInitializer {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(burntTorch));
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(litLantern));
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(unlitLantern));
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> entries.add(campfire));
 
 		Registry.register(Registries.FEATURE, REPLACE_FEATURE_ID, REPLACE_FEATURE);
 

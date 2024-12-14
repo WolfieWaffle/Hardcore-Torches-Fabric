@@ -15,6 +15,7 @@ import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
 import com.github.wolfiewaffle.hardcore_torches.loot.LanternLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
+import com.github.wolfiewaffle.hardcore_torches.recipe.CampfireRecipe;
 import com.github.wolfiewaffle.hardcore_torches.recipe.OilCanRecipe;
 import com.github.wolfiewaffle.hardcore_torches.recipe.TorchRecipe;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
@@ -127,8 +128,10 @@ public class Mod implements ModInitializer {
 	// Recipe Types
 	public static final RecipeType<OilCanRecipe> OIL_CAN_RECIPE = RecipeType.register("hardcore_torches:oil_can");
 	public static final RecipeType<TorchRecipe> TORCH_RECIPE = RecipeType.register("hardcore_torches:torch");
+	public static final RecipeType<CampfireRecipe> CAMPFIRE_RECIPE = RecipeType.register("hardcore_torches:campfire");
 	public static RecipeSerializer<OilCanRecipe> OIL_RECIPE_SERIALIZER;
 	public static RecipeSerializer<TorchRecipe> TORCH_RECIPE_SERIALIZER;
+	public static RecipeSerializer<CampfireRecipe> CAMPFIRE_RECIPE_SERIALIZER;
 
 	// World gen
 	public static final Identifier REPLACE_FEATURE_ID = new Identifier("hardcore_torches", "replace_block_feature");
@@ -237,6 +240,7 @@ public class Mod implements ModInitializer {
 		// Recipe Types
 		OIL_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "oil_can"), new OilCanRecipe.Serializer());
 		TORCH_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "torch"), new TorchRecipe.Serializer());
+		CAMPFIRE_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("hardcore_torches", "campfire"), new CampfireRecipe.Serializer());
 
 		// Loot Tables
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {

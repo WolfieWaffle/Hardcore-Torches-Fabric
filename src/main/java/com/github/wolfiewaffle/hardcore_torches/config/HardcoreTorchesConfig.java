@@ -107,4 +107,7 @@ public class HardcoreTorchesConfig implements ConfigData {
 
     @Comment("Duration for fuel items in campfire is furnace burn time, times this number. default 8.0")
     public double campfireFuelFactor = 8.0;
+
+    @Comment("Should hardcore campfires be crafted? If false, this essentially disables the campfire part of this mod.")
+    public boolean craftHardcoreCampfire = true;
 }

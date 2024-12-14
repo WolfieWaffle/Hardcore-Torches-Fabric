@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "hardcore_torches:campfire",
   "category": "misc",
   "key": {
     "C": {

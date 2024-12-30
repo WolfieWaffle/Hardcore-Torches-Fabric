@@ -14,7 +14,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
         fuel = Mod.config.defaultTorchFuel;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity be) {
+    public static void tick(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
         if (!world.isClient) {
             if (!(state.getBlock() instanceof AbstractHardcoreTorchBlock)) return;
             if (((AbstractHardcoreTorchBlock) state.getBlock()).getBurnState() == ETorchState.LIT) {
@@ -25,7 +25,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
         }
     }
 
-    private static void tickLit(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity be) {
+    private static void tickLit(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
 
         // Extinguish
         if (Mod.config.torchesRain && world.hasRain(pos)) {
@@ -50,7 +50,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
         be.markDirty();
     }
 
-        private static void tickSmoldering(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity be) {
+        private static void tickSmoldering(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
 
         // Burn out
         if (random.nextInt(3) == 0) {

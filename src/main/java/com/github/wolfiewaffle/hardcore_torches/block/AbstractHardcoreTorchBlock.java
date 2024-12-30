@@ -59,6 +59,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
 
     public void extinguish(World world, BlockPos pos, BlockState state) {
         if (!world.isClient) {
+            System.out.println("EXT");
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 1f, 1f);
             TorchTools.displayParticle(ParticleTypes.LARGE_SMOKE, state, world, pos);
             TorchTools.displayParticle(ParticleTypes.LARGE_SMOKE, state, world, pos);
@@ -119,7 +120,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
     // region BlockEntity code
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new HardcoreCampfireBlockEntity(pos, state);
+        return new TorchBlockEntity(pos, state);
     }
 
     // Is invisible without this
@@ -132,7 +133,7 @@ public abstract class AbstractHardcoreTorchBlock extends Block implements BlockE
     // Needed for ticking, idk what it means
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return type == Mod.TORCH_BLOCK_ENTITY ? (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, (HardcoreCampfireBlockEntity) be) : null;
+        return type == Mod.TORCH_BLOCK_ENTITY ? (world1, pos, state1, be) -> TorchBlockEntity.tick(world1, pos, state1, (TorchBlockEntity) be) : null;
     }
     //endregion
 

@@ -1,33 +1,23 @@
 package com.github.wolfiewaffle.hardcore_torches.blockentity;
 
 import com.github.wolfiewaffle.hardcore_torches.Mod;
-import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.HardcoreCampfire;
-import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
-import com.sun.jdi.IntegerValue;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.CampfireBlockEntity;
-import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +42,6 @@ public class HardcoreCampfireBlockEntity extends CampfireBlockEntity {
 
     public static void clientTick(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity entity) {
         CampfireBlockEntity.clientTick(world, pos, state, entity);
-        System.out.println("CAMPFIREEEE");
     }
 
     public static void cookTick(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity entity) {

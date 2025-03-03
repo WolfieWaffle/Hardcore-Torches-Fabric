@@ -47,7 +47,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
             }
         }
 
-        be.markDirty();
+
     }
 
         private static void tickSmoldering(World world, BlockPos pos, BlockState state, TorchBlockEntity be) {
@@ -63,6 +63,7 @@ public class TorchBlockEntity extends FuelBlockEntity {
             }
         }
 
-        be.markDirty();
+        world.markDirty(pos);
+        //be.markDirty();
     }
 }

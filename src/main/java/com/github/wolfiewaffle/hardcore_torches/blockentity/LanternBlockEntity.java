@@ -21,7 +21,8 @@ public class LanternBlockEntity extends FuelBlockEntity {
                 be.changeFuel(-1);
             }
 
-            be.markDirty();
+            world.markDirty(pos);
+            //be.markDirty();
         }
     }
 }

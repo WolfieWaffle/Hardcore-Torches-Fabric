@@ -1,0 +1,7 @@
+{
+  "type": "hardcore_torches:replace_block_feature",
+  "config": {
+	  "number": 1,
+	  "blockID": "minecraft:air"
+  }
+}

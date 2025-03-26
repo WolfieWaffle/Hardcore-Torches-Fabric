@@ -1,0 +1,24 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hardcore_torches:block/lit_torch"
+  },
+  "overrides": [
+    {
+	  "predicate": {"custom_model_data":1},
+	  "model": "hardcore_torches:item/lit_torch"
+	},
+    {
+	  "predicate": {"custom_model_data":2},
+	  "model": "hardcore_torches:item/unlit_torch"
+	},
+    {
+	  "predicate": {"custom_model_data":3},
+	  "model": "hardcore_torches:item/unlit_torch"
+	},
+    {
+	  "predicate": {"custom_model_data":4},
+	  "model": "hardcore_torches:item/burnt_torch"
+	}
+  ]
+}

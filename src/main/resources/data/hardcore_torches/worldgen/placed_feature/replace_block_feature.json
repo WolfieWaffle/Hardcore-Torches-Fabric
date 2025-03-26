@@ -1,0 +1,9 @@
+{
+  "feature": "hardcore_torches:replace_block_feature",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 1
+    }
+  ]
+}

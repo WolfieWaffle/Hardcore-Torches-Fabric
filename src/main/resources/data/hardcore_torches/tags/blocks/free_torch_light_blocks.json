@@ -1,0 +1,27 @@
+{
+    "replace": false,
+    "values": [
+        "#minecraft:candles",
+        "#minecraft:candle_cakes",
+        "minecraft:torch",
+        "minecraft:wall_torch",
+        "minecraft:soul_torch",
+        "minecraft:fire",
+        "minecraft:soul_fire",
+        "minecraft:lantern",
+        "minecraft:soul_lantern",
+        "minecraft:jack_o_lantern",
+        "minecraft:campfire",
+        "hardcore_torches:hardcore_campfire",
+        "minecraft:soul_campfire",
+        "minecraft:magma_block",
+        "minecraft:furnace",
+        "minecraft:blast_furnace",
+        "minecraft:smoker",
+        "hardcore_torches:lit_torch",
+        "hardcore_torches:lit_wall_torch",
+        "hardcore_torches:smoldering_torch",
+        "hardcore_torches:smoldering_wall_torch",
+        "hardcore_torches:lit_lantern"
+    ]
+}

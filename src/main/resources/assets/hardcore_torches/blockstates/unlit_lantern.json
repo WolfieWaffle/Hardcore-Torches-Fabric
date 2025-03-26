@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "hardcore_torches:block/unlit_lantern"
+    },
+    "hanging=true": {
+      "model": "hardcore_torches:block/unlit_lantern_hanging"
+    }
+  }
+}

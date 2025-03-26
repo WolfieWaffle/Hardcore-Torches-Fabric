@@ -1,0 +1,10 @@
+{
+  "block.hardcore_torches.lit_torch": "Zapálený louč",
+  "block.hardcore_torches.unlit_torch": "Nezapálený louč",
+  "block.hardcore_torches.smoldering_torch": "Doutnající louč",
+  "block.hardcore_torches.burnt_torch": "Dohořelý louč",
+  "block.hardcore_torches.lit_lantern": "Zapálená lucerna",
+  "block.hardcore_torches.unlit_lantern": "Nezapálená lucerna",
+  "item.hardcore_torches.oil_can": "Plechovka petroleje do lucerny",
+  "item.hardcore_torches.animal_fat": "Zvířecí tuk"
+}

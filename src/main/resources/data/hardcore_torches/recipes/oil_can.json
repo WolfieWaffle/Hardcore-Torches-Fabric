@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        " # ",
+        "#|#",
+        "###"
+    ],
+    "key":
+    {
+        "#":
+        {
+            "item": "minecraft:iron_nugget"
+        },
+        "|":
+        {
+            "item": "minecraft:string"
+        }
+    },
+    "result":
+    {
+        "item": "hardcore_torches:oil_can",
+        "count": 1
+    }
+}

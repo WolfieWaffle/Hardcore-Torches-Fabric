@@ -1,5 +1,6 @@
 package com.github.wolfiewaffle.hardcore_torches.loot;
 
+import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -32,7 +33,7 @@ public class FatLootNumberProvider implements LootNumberProvider {
 
     @Override
     public LootNumberProviderType getType() {
-        return HCTLootNumberProviderTypes.FAT;
+        return Mod.FAT_LOOT_NUMBER_PROVIDER;
     }
 
     public static class Serializer implements JsonSerializer<FatLootNumberProvider> {

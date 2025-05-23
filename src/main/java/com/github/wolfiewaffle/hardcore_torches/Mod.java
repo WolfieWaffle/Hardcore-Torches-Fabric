@@ -13,6 +13,7 @@ import com.github.wolfiewaffle.hardcore_torches.item.FireStarterItem;
 import com.github.wolfiewaffle.hardcore_torches.item.LanternItem;
 import com.github.wolfiewaffle.hardcore_torches.item.OilCanItem;
 import com.github.wolfiewaffle.hardcore_torches.item.TorchItem;
+import com.github.wolfiewaffle.hardcore_torches.loot.FatLootNumberProvider;
 import com.github.wolfiewaffle.hardcore_torches.loot.HCTLootTableModifier;
 import com.github.wolfiewaffle.hardcore_torches.loot.TorchLootFunction;
 import com.github.wolfiewaffle.hardcore_torches.recipe.CampfireRecipe;
@@ -30,7 +31,6 @@ import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
@@ -44,6 +44,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.function.LootFunctionType;
+import net.minecraft.loot.provider.number.LootNumberProviderType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -121,6 +122,9 @@ public class Mod implements ModInitializer {
 	public static RecipeSerializer<OilCanRecipe> OIL_RECIPE_SERIALIZER;
 	public static RecipeSerializer<TorchRecipe> TORCH_RECIPE_SERIALIZER;
 	public static RecipeSerializer<CampfireRecipe> CAMPFIRE_RECIPE_SERIALIZER;
+
+	// Loot
+	public static final LootNumberProviderType FAT_LOOT_NUMBER_PROVIDER = Registry.register(Registries.LOOT_NUMBER_PROVIDER_TYPE, new Identifier("hardcore_torches:fat"), new LootNumberProviderType(new FatLootNumberProvider.Serializer()));
 
 	// World gen
 	public static final Identifier REPLACE_FEATURE_ID = new Identifier("hardcore_torches", "replace_block_feature");

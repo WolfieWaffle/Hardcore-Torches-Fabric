@@ -62,7 +62,7 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 
-	modImplementation "dev.emi:trinkets:3.8.1"
+	modImplementation "dev.emi:trinkets:3.7.2"
 	//modImplementation "curse.maven:hct-242844:5278475"
 }
 

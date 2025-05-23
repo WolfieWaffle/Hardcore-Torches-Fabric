@@ -69,7 +69,9 @@ public class HardcoreCampfire extends CampfireBlock implements IFuelBlock {
         if (blockEntity != null && blockEntity instanceof HardcoreCampfireBlockEntity campfire) {
             if (campfire.getFuel() <= 0) return false;
         }
-        return canBeLit(world.getBlockState(pos));
+        //return canBeLit(world.getBlockState(pos)); not working for some reason
+        BlockState state = world.getBlockState(pos);
+        return !state.get(WATERLOGGED) && !state.get(LIT);
     }
 
     public int getFuel(World world, BlockPos pos) {
@@ -115,12 +117,9 @@ public class HardcoreCampfire extends CampfireBlock implements IFuelBlock {
             if (state.get(CampfireBlock.LIT)) return super.onUse(state, world, pos, player, hand, hit);
 
             if (!world.isClient) {
-                //canLight should maybe be static so I don't have to do this.
-                Block block = state.getBlock();
-
-                if (block instanceof HardcoreCampfire campfire && !campfire.canLight(world, pos)) {
-                    if (campfire.getFuel(world, pos) <= 0) return needsFuel(player);
-                } else if (CampfireBlock.canBeLit(state) && world.getBlockEntity(pos) instanceof HardcoreCampfireBlockEntity campfire) {
+                if (getFuel(world, pos) <= 0) {
+                    return needsFuel(player);
+                } else if (world.getBlockEntity(pos) instanceof HardcoreCampfireBlockEntity campfire) {
                     if (attemptUseItem(stack, player, hand, ETorchState.LIT)) {
                         light(world, pos, state);
                         player.swingHand(hand);

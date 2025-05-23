@@ -57,11 +57,19 @@ public class HardcoreCampfireBlockEntity extends CampfireBlockEntity {
 
         takeFuelItems(world, pos, entity);
 
+        if (world.isChunkLoaded(pos)) {
+            world.markDirty(pos);
+        }
+
         CampfireBlockEntity.litServerTick(world, pos, state, entity);
     }
 
     public static void cooldownTick(World world, BlockPos pos, BlockState state, HardcoreCampfireBlockEntity entity) {
         takeFuelItems(world, pos, entity);
+
+        if (world.isChunkLoaded(pos)) {
+            world.markDirty(pos);
+        }
 
         CampfireBlockEntity.unlitServerTick(world, pos, state, entity);
     }

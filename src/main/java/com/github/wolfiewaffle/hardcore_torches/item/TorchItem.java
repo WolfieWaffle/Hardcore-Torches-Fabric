@@ -144,6 +144,9 @@ public class TorchItem extends VerticallyAttachableBlockItem implements FabricIt
             if (((TorchItem) otherStack.getItem()).torchState != ETorchState.UNLIT) {
                 return false;
             }
+        } else if (((TorchItem) stack.getItem()).torchState == ETorchState.BURNT) {
+            // If clicked is burnt, return no matter what
+            return false;
         }
 
         if (!otherStack.isEmpty()) {

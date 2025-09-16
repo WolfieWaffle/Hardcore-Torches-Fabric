@@ -3,6 +3,7 @@ package com.github.wolfiewaffle.hardcore_torches.item;
 import com.github.wolfiewaffle.hardcore_torches.Mod;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractHardcoreTorchBlock;
 import com.github.wolfiewaffle.hardcore_torches.block.AbstractLanternBlock;
+import com.github.wolfiewaffle.hardcore_torches.block.HardcoreCampfire;
 import com.github.wolfiewaffle.hardcore_torches.util.ETorchState;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -41,7 +42,7 @@ public class FireStarterItem extends Item {
         World world = context.getWorld();
         BlockState state = world.getBlockState(pos);
 
-        if (state.getBlock() == Blocks.CAMPFIRE) {
+        if (state.getBlock() instanceof CampfireBlock) {
             if (state.get(Properties.LIT)) {
                 world.setBlockState(pos, state.with(Properties.LIT, true));
             }
@@ -59,7 +60,6 @@ public class FireStarterItem extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (world.isClient) return;
-        //if (!(user instanceof PlayerEntity)) return;
 
         BlockHitResult hit = world.raycast(new RaycastContext(user.getEyePos(), user.getEyePos().add(user.getRotationVecClient().multiply(4)), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, user));
         BlockPos pos = hit.getBlockPos();
@@ -76,7 +76,14 @@ public class FireStarterItem extends Item {
         if (remainingUseTicks <= USE_DURATION - 15 && user instanceof PlayerEntity) {
             boolean simulateFlintAndSteel = false;
 
-            if (block instanceof CampfireBlock && Mod.config.starterLightCampfires) {
+            if (block instanceof HardcoreCampfire campfire && Mod.config.starterLightCampfires) {
+                if (campfire.getFuel(world, pos) <= 0) {
+                    if (user != null && user instanceof PlayerEntity player) campfire.needsFuel(player);
+                } else {
+                    attempt = true;
+                    if (success) campfire.light(world, pos, world.getBlockState(pos));
+                }
+            } else if (block instanceof CampfireBlock && Mod.config.starterLightCampfires) {
                 attempt = true;
                 if (success) simulateFlintAndSteel = true;
             } else if (block instanceof AbstractHardcoreTorchBlock && Mod.config.starterLightTorches) {

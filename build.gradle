@@ -29,6 +29,11 @@ repositories {
 	}
 
 	maven {
+		name = "Gegy"
+		url = "https://maven.gegy.dev"
+	}
+
+	maven {
 		url 'https://www.cursemaven.com'
 		content {
 			includeGroup "curse.maven"
@@ -63,7 +68,8 @@ dependencies {
 	}
 
 	modImplementation "dev.emi:trinkets:3.7.2"
-	//modImplementation "curse.maven:hct-242844:5278475"
+	//modImplementation "curse.maven:lamb-393442:6440305"
+	//modImplementation "curse.maven:lamb-393442:6440305"
 }
 
 processResources {
